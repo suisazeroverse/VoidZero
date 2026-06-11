@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ VOID ARTS — Commission Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#000;--deep:#050508;--abyss:#0a0a12;--dark:#0d0d1a;
+  --surface:#12121f;--card:#16162a;--card2:#1a1a30;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.15);
+  --white:#fff;--ghost:rgba(255,255,255,0.6);--muted:rgba(255,255,255,0.35);--faint:rgba(255,255,255,0.1);
+  --red:#e53935;--red2:#ff1744;--blue:#1565c0;--blue2:#2979ff;--cyan:#00e5ff;--gold:#ffd700;
+  --glow-r:0 0 20px rgba(229,57,53,0.4),0 0 60px rgba(229,57,53,0.15);
+  --glow-b:0 0 20px rgba(41,121,255,0.4),0 0 60px rgba(41,121,255,0.15);
+  --font-title:'Cinzel',serif;--font-body:'Rajdhani',sans-serif;--font-mono:'Share Tech Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--deep);}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+#bh-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+#stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.6;}
+#app{position:relative;z-index:10;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--font-title);font-size:1.1rem;font-weight:900;letter-spacing:0.2em;background:linear-gradient(135deg,var(--white),var(--red),var(--blue2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.nav-links{display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;}
+.nb{font-family:var(--font-body);font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--border2);background:transparent;color:var(--ghost);cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);}
+.nb:hover{background:var(--faint);color:var(--white);border-color:var(--red);}
+.nb.on{background:var(--red);color:var(--white);border-color:var(--red);box-shadow:var(--glow-r);}
+.nb.blue{border-color:var(--blue2);color:var(--blue2);}
+.nb.blue:hover{background:rgba(41,121,255,0.15);}
+.nb.gold{border-color:var(--gold);color:var(--gold);}
+.nb.gold:hover{background:rgba(255,215,0,0.12);}
+#uname{font-family:var(--font-mono);font-size:0.68rem;color:var(--cyan);margin-right:0.3rem;}
+.rbadge{font-family:var(--font-mono);font-size:0.62rem;padding:0.12rem 0.5rem;border:1px solid;margin-right:0.25rem;}
+.rbadge.owner{color:var(--gold);border-color:var(--gold);background:rgba(255,215,0,0.1);}
+.rbadge.admin{color:var(--red);border-color:var(--red);background:rgba(229,57,53,0.1);}
+.page{display:none;padding-top:60px;min-height:100vh;}
+.page.active{display:block;}
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.eyebrow{font-family:var(--font-mono);font-size:0.72rem;color:var(--red);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1.5rem;}
+.htitle{font-family:var(--font-title);font-size:clamp(2.5rem,8vw,6rem);font-weight:900;letter-spacing:0.05em;line-height:1;margin-bottom:1rem;}
+.htitle span{display:block;background:linear-gradient(135deg,var(--white) 0%,#ccc 40%,var(--red) 70%,var(--blue2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hsub{font-size:1rem;color:var(--ghost);max-width:500px;margin:0 auto 2.5rem;font-weight:300;}
+.hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.bprimary{font-family:var(--font-body);font-size:0.85rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.65rem 2rem;border:none;cursor:pointer;background:linear-gradient(135deg,var(--red),#b71c1c);color:var(--white);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all 0.3s;box-shadow:var(--glow-r);}
+.bprimary:hover{transform:translateY(-2px);}
+.boutline{font-family:var(--font-body);font-size:0.85rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.65rem 2rem;border:1px solid var(--blue2);background:transparent;color:var(--blue2);cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all 0.3s;}
+.boutline:hover{background:rgba(41,121,255,0.15);}
+.bgold{font-family:var(--font-body);font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.8rem;border:1px solid var(--gold);background:rgba(255,215,0,0.08);color:var(--gold);cursor:pointer;transition:all 0.3s;}
+.bgold:hover{background:rgba(255,215,0,0.18);}
+.sec{padding:3rem 2rem;max-width:1200px;margin:0 auto;}
+.sectitle{font-family:var(--font-title);font-size:1.8rem;font-weight:700;letter-spacing:0.1em;margin-bottom:0.5rem;background:linear-gradient(135deg,var(--white),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:0.5rem 0 1.75rem;}
+/* COMM */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;}
+.ccard{background:var(--card);border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;transition:all 0.3s;cursor:pointer;}
+.ccard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--blue2));transform:scaleX(0);transition:transform 0.3s;}
+.ccard:hover::before{transform:scaleX(1);}
+.ccard:hover{border-color:var(--border2);background:var(--card2);transform:translateY(-3px);}
+.cbadge{display:inline-block;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;padding:0.18rem 0.55rem;margin-bottom:0.6rem;}
+.open{background:rgba(0,229,255,0.1);color:var(--cyan);border:1px solid rgba(0,229,255,0.3);}
+.closed{background:rgba(229,57,53,0.1);color:var(--red);border:1px solid rgba(229,57,53,0.3);}
+.waitlist{background:rgba(41,121,255,0.1);color:var(--blue2);border:1px solid rgba(41,121,255,0.3);}
+.ctitle{font-family:var(--font-title);font-size:1rem;font-weight:700;margin-bottom:0.45rem;}
+.cdesc{font-size:0.8rem;color:var(--ghost);margin-bottom:0.85rem;line-height:1.5;}
+.cprice{font-family:var(--font-mono);font-size:1.1rem;}
+.tag{font-size:0.68rem;padding:0.12rem 0.45rem;background:var(--faint);color:var(--muted);border:1px solid var(--border);}
+/* QUEUE */
+.qi{display:flex;align-items:center;gap:1rem;padding:0.9rem 1.4rem;margin-bottom:0.65rem;background:var(--card);border:1px solid var(--border);transition:all 0.3s;}
+.qi.cur{animation:qp 1.5s infinite;}
+@keyframes qp{0%,100%{background:var(--card);border-color:rgba(255,255,255,0.4);}50%{background:rgba(255,255,255,0.07);border-color:var(--white);}}
+.qdot{width:13px;height:13px;border-radius:50%;flex-shrink:0;background:var(--muted);border:2px solid var(--border2);}
+.qdot.act{background:var(--white);box-shadow:0 0 12px var(--white);}
+.qdot.dn{background:var(--red);border-color:var(--red);}
+.qnum{font-family:var(--font-mono);font-size:0.78rem;color:var(--muted);min-width:22px;}
+.qinfo{flex:1;}
+.qname{font-weight:600;font-size:0.9rem;}
+.qtype{font-size:0.75rem;color:var(--muted);}
+.qstat{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.1em;padding:0.18rem 0.55rem;}
+.qs-pending{color:var(--muted);border:1px solid var(--border);}
+.qs-inprogress{color:var(--cyan);border:1px solid rgba(0,229,255,0.4);animation:qb 1s infinite;}
+.qs-done{color:var(--red);border:1px solid rgba(229,57,53,0.4);}
+@keyframes qb{0%,100%{border-color:rgba(0,229,255,0.3);}50%{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,229,255,0.35);}}
+/* GALLERY */
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:0.9rem;}
+.gitem{aspect-ratio:1;background:var(--card);border:1px solid var(--border);position:relative;overflow:hidden;cursor:pointer;transition:all 0.3s;}
+.gitem:hover{border-color:var(--red);transform:scale(1.02);}
+.gitem img{width:100%;height:100%;object-fit:cover;display:block;}
+.gover{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;}
+.gitem:hover .gover{opacity:1;}
+/* REVIEWS */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem;}
+.rcard{background:var(--card);border:1px solid var(--border);padding:1.4rem;transition:all 0.3s;}
+.rcard:hover{border-color:var(--border2);}
+.ravatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--blue2));display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:700;font-size:0.85rem;flex-shrink:0;}
+/* CHAT */
+.clayout{display:grid;grid-template-columns:230px 1fr;height:calc(100vh - 140px);border:1px solid var(--border);}
+.csidebar{background:var(--card);border-right:1px solid var(--border);overflow-y:auto;}
+.cstitle{font-family:var(--font-mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.18em;padding:0.7rem 1rem;border-bottom:1px solid var(--border);}
+.cui{padding:0.6rem 1rem;cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;display:flex;align-items:center;gap:0.6rem;}
+.cui:hover{background:var(--faint);border-left-color:var(--border2);}
+.cui.act{background:rgba(229,57,53,0.1);border-left-color:var(--red);}
+.cava{width:29px;height:29px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--red),var(--blue2));display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:0.68rem;font-weight:700;}
+.cmain{display:flex;flex-direction:column;background:var(--deep);}
+.cheader{padding:0.7rem 1.2rem;border-bottom:1px solid var(--border);background:var(--card);display:flex;align-items:center;gap:0.85rem;}
+.cmsgs{flex:1;overflow-y:auto;padding:1.1rem;display:flex;flex-direction:column;gap:0.65rem;}
+.msg{display:flex;gap:0.6rem;max-width:80%;}
+.msg.mine{flex-direction:row-reverse;align-self:flex-end;}
+.mbubble{padding:0.48rem 0.85rem;font-size:0.83rem;line-height:1.5;background:var(--card2);border:1px solid var(--border);}
+.msg.mine .mbubble{background:rgba(229,57,53,0.15);border-color:rgba(229,57,53,0.3);}
+.mtime{font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);margin-top:0.22rem;text-align:right;}
+.cinput-area{padding:0.7rem 1.2rem;border-top:1px solid var(--border);background:var(--card);display:flex;gap:0.6rem;}
+.cinput{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--white);padding:0.48rem 0.85rem;font-family:var(--font-body);font-size:0.83rem;outline:none;transition:border-color 0.2s;}
+.cinput:focus{border-color:var(--red);}
+.csend{background:var(--red);border:none;color:var(--white);padding:0.48rem 1rem;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:0.72rem;letter-spacing:0.1em;transition:all 0.2s;}
+.csend:hover{background:var(--red2);}
+/* CHANNELS PAGE */
+.chlayout{display:grid;grid-template-columns:195px 1fr;height:calc(100vh - 150px);border:1px solid var(--border);}
+.chsidebar{background:var(--abyss);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
+.chsec{padding:0.4rem 0;}
+.chsectitle{font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.15em;padding:0.38rem 0.7rem;display:flex;align-items:center;justify-content:space-between;}
+.chitem{padding:0.38rem 0.7rem;cursor:pointer;font-size:0.8rem;color:var(--muted);transition:all 0.2s;display:flex;align-items:center;gap:0.45rem;}
+.chitem:hover{color:var(--white);background:var(--faint);}
+.chitem.act{color:var(--white);background:rgba(229,57,53,0.1);}
+.chicon{font-size:0.85rem;width:17px;text-align:center;}
+.addbtn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.08rem 0.28rem;transition:color 0.2s;line-height:1;}
+.addbtn:hover{color:var(--white);}
+.chmain{display:flex;flex-direction:column;background:var(--deep);}
+/* VOICE */
+.vroom{padding:1.5rem;flex:1;overflow-y:auto;}
+.vctrls{display:flex;gap:0.65rem;margin-top:1rem;flex-wrap:wrap;}
+.vbtn{background:var(--surface);border:1px solid var(--border);color:var(--ghost);padding:0.38rem 0.85rem;cursor:pointer;font-size:0.72rem;font-family:var(--font-mono);transition:all 0.2s;}
+.vbtn:hover{border-color:var(--red);color:var(--white);}
+.vbtn.av{background:rgba(229,57,53,0.2);border-color:var(--red);color:var(--red);}
+.vbtn.ss{border-color:var(--cyan);color:var(--cyan);}
+.vbtn.ss:hover,.vbtn.ss.on{background:rgba(0,229,255,0.12);}
+.ssarea{background:var(--dark);border:1px solid var(--border);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.ssarea video{width:100%;height:100%;object-fit:contain;}
+/* GLOBAL CHAT */
+.gchat{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;width:310px;background:var(--card);border:1px solid var(--border);box-shadow:var(--glow-r);}
+.gchead{padding:0.6rem 1rem;background:rgba(229,57,53,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.gctitle{font-family:var(--font-mono);font-size:0.68rem;color:var(--red);letter-spacing:0.1em;}
+.gcbody{display:none;}
+.gchat.open .gcbody{display:flex;flex-direction:column;height:260px;}
+.gcmsgs{flex:1;overflow-y:auto;padding:0.6rem;display:flex;flex-direction:column;gap:0.38rem;}
+.gcmsg{font-size:0.76rem;}
+.gcuser{font-family:var(--font-mono);font-size:0.62rem;color:var(--cyan);margin-right:0.38rem;}
+.gcinput-row{padding:0.38rem;border-top:1px solid var(--border);display:flex;gap:0.38rem;}
+.gcinput{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--white);padding:0.32rem 0.6rem;font-family:var(--font-body);font-size:0.76rem;outline:none;}
+.gcinput:focus{border-color:var(--red);}
+.gcsend{background:var(--red);border:none;color:var(--white);padding:0.32rem 0.6rem;cursor:pointer;font-size:0.76rem;}
+/* MODAL */
+.moverlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.86);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:1rem;}
+.moverlay.open{display:flex;}
+.mbox{background:var(--dark);border:1px solid var(--border);padding:1.65rem;width:100%;max-width:500px;position:relative;max-height:90vh;overflow-y:auto;}
+.mtitle{font-family:var(--font-title);font-size:1.25rem;font-weight:700;margin-bottom:1.2rem;background:linear-gradient(135deg,var(--white),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.mclose{position:absolute;top:0.9rem;right:0.9rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.05rem;transition:color 0.2s;}
+.mclose:hover{color:var(--white);}
+/* FORMS */
+.fg{margin-bottom:1rem;}
+.fl{display:block;font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.38rem;text-transform:uppercase;}
+.fi,.fsel,.fta{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--white);padding:0.58rem 0.85rem;font-family:var(--font-body);font-size:0.875rem;outline:none;transition:border-color 0.2s;}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--red);}
+.fsel{appearance:none;cursor:pointer;}
+.fta{resize:vertical;min-height:75px;}
+.ae{padding:0.6rem 0.9rem;margin-bottom:0.7rem;font-size:0.82rem;border-left:3px solid;}
+.ae.err{background:rgba(229,57,53,0.1);border-color:var(--red);color:var(--red);}
+.ae.ok{background:rgba(0,229,255,0.05);border-color:var(--cyan);color:var(--cyan);}
+/* ADMIN */
+.alayout{display:grid;grid-template-columns:205px 1fr;min-height:calc(100vh - 60px);}
+.asidebar{background:var(--card);border-right:1px solid var(--border);padding:0.9rem 0;overflow-y:auto;}
+.asidebartitle{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.2em;color:var(--muted);padding:0 1rem 0.6rem;border-bottom:1px solid var(--border);margin-bottom:0.38rem;}
+.ani{padding:0.52rem 1rem;cursor:pointer;transition:all 0.2s;font-size:0.8rem;display:flex;align-items:center;gap:0.6rem;border-left:2px solid transparent;color:var(--ghost);}
+.ani:hover{background:var(--faint);border-left-color:var(--border2);color:var(--white);}
+.ani.act{background:rgba(229,57,53,0.1);border-left-color:var(--red);color:var(--white);}
+.acontent{padding:1.65rem;background:var(--deep);overflow-y:auto;}
+.astats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.9rem;margin-bottom:1.4rem;}
+.astat{background:var(--card);border:1px solid var(--border);padding:0.9rem;text-align:center;}
+.astatnum{font-family:var(--font-mono);font-size:1.5rem;font-weight:700;}
+.astatlabel{font-size:0.68rem;color:var(--muted);margin-top:0.22rem;text-transform:uppercase;letter-spacing:0.1em;}
+.dtable{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.dtable th{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;color:var(--muted);padding:0.6rem 0.85rem;border-bottom:1px solid var(--border);text-align:left;text-transform:uppercase;}
+.dtable td{padding:0.6rem 0.85rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.dtable tr:hover td{background:var(--faint);}
+.ab{font-family:var(--font-mono);font-size:0.62rem;padding:0.22rem 0.5rem;cursor:pointer;transition:all 0.2s;background:transparent;letter-spacing:0.05em;margin:0.08rem;}
+.ab.danger{color:var(--red);border:1px solid rgba(229,57,53,0.4);}
+.ab.danger:hover{background:rgba(229,57,53,0.15);}
+.ab.info{color:var(--blue2);border:1px solid rgba(41,121,255,0.4);}
+.ab.info:hover{background:rgba(41,121,255,0.15);}
+.ab.ok{color:var(--cyan);border:1px solid rgba(0,229,255,0.4);}
+.ab.ok:hover{background:rgba(0,229,255,0.08);}
+.ab.gld{color:var(--gold);border:1px solid rgba(255,215,0,0.4);}
+.ab.gld:hover{background:rgba(255,215,0,0.1);}
+/* UPLOAD */
+.uzone{border:2px dashed var(--border2);padding:2rem;text-align:center;cursor:pointer;transition:all 0.3s;margin-bottom:1rem;position:relative;overflow:hidden;}
+.uzone:hover{border-color:var(--red);background:rgba(229,57,53,0.03);}
+.uzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.utext{color:var(--ghost);font-size:0.85rem;}
+.usub{color:var(--muted);font-size:0.72rem;margin-top:0.22rem;}
+/* VIDEO */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1.4rem;}
+.vcard{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:all 0.3s;}
+.vcard:hover{border-color:var(--red);}
+.vthumb{aspect-ratio:16/9;background:var(--surface);position:relative;overflow:hidden;}
+.vthumb video{width:100%;height:100%;object-fit:cover;}
+.pover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);transition:all 0.3s;}
+.pbtn{width:46px;height:46px;border-radius:50%;background:rgba(229,57,53,0.85);border:2px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--white);transition:all 0.3s;cursor:pointer;}
+.vthumb:hover .pbtn{transform:scale(1.1);box-shadow:var(--glow-r);}
+/* FREEBIES */
+.fbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.1rem;}
+.fbcard{background:var(--card);border:1px solid var(--border);padding:1.2rem;text-align:center;transition:all 0.3s;}
+.fbcard:hover{border-color:var(--cyan);transform:translateY(-3px);}
+.fbicon{font-size:2.1rem;margin-bottom:0.7rem;opacity:0.7;}
+.dlbtn{display:inline-block;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.35);color:var(--cyan);font-family:var(--font-mono);font-size:0.68rem;padding:0.32rem 0.85rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.1em;}
+.dlbtn:hover{background:rgba(0,229,255,0.18);}
+/* TOAST */
+#toast{position:fixed;bottom:5.5rem;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);padding:0.6rem 1.4rem;font-size:0.8rem;z-index:3000;opacity:0;transition:opacity 0.3s;font-family:var(--font-mono);letter-spacing:0.05em;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;}
+/* THEME */
+.tsw{position:fixed;top:68px;right:0.85rem;z-index:900;background:var(--card);border:1px solid var(--border);padding:0.45rem;display:flex;flex-direction:column;gap:0.35rem;}
+.tswb{width:22px;height:22px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.tswb:hover{border-color:var(--white);}
+.tswb.act{border-color:var(--red);}
+.tswb[data-t="bw"]{background:linear-gradient(135deg,#000,#fff);}
+.tswb[data-t="rb"]{background:linear-gradient(135deg,#e53935,#1565c0);}
+.tswb[data-t="star"]{background:linear-gradient(135deg,#0a0020,#4a0080);}
+.tswb[data-t="bh"]{background:radial-gradient(circle at 40% 50%,#000 20%,#1a0030 60%,#0d0030 100%);}
+.ownerbadge{display:inline-block;font-family:var(--font-mono);font-size:0.62rem;padding:0.12rem 0.55rem;background:rgba(255,215,0,0.12);color:var(--gold);border:1px solid var(--gold);margin-bottom:0.85rem;}
+.atab{font-size:0.72rem;padding:0.42rem 0.9rem;background:none;border:none;color:var(--muted);font-family:var(--font-mono);cursor:pointer;border-bottom:2px solid transparent;letter-spacing:0.1em;}
+.atab.on{color:var(--white);border-bottom-color:var(--red);}
+.progbar{width:100%;height:3px;background:var(--border);margin-top:0.45rem;display:none;}
+.progfill{height:3px;background:linear-gradient(90deg,var(--red),var(--blue2));width:0%;transition:width 0.3s;}
+</style>
+</head>
+<body>
+<canvas id="bh-canvas"></canvas>
+<canvas id="stars-canvas"></canvas>
+<div id="app">
+
+<nav>
+  <div class="nav-logo" onclick="go('home')">✦ VOID ARTS</div>
+  <div class="nav-links">
+    <button class="nb" onclick="go('home')">HOME</button>
+    <button class="nb" onclick="go('commissions')">COMM</button>
+    <button class="nb" onclick="go('gallery')">GALLERY</button>
+    <button class="nb" onclick="go('queue')">QUEUE</button>
+    <button class="nb" onclick="go('videos')">VIDEOS</button>
+    <button class="nb" onclick="go('freebies')">FREE</button>
+    <button class="nb" onclick="go('reviews')">REVIEWS</button>
+    <button class="nb" onclick="go('channels')">💬 CHANNELS</button>
+    <span id="rbadge-el"></span>
+    <span id="uname"></span>
+    <button class="nb blue" id="auth-btn" onclick="openAuth()">LOGIN</button>
+    <button class="nb gold" id="panel-btn" style="display:none" onclick="go('admin')">⚙ PANEL</button>
+    <button class="nb" id="chat-btn" style="display:none" onclick="go('chat')">💬 DM</button>
+    <button class="nb" id="logout-btn" style="display:none" onclick="doLogout()">LOGOUT</button>
+  </div>
+</nav>
+
+<div class="tsw">
+  <div class="tswb act" data-t="bh" title="Cosmic Blackhole" onclick="setTheme('bh')"></div>
+  <div class="tswb" data-t="bw" title="Black & White" onclick="setTheme('bw')"></div>
+  <div class="tswb" data-t="rb" title="Demon King" onclick="setTheme('rb')"></div>
+  <div class="tswb" data-t="star" title="Starfield" onclick="setTheme('star')"></div>
+</div>
+<div id="toast"></div>
+
+<!-- ===== HOME ===== -->
+<div id="page-home" class="page active">
+  <div id="hero">
+    <div class="eyebrow">✦ COSMIC SINGULARITY STUDIO ✦</div>
+    <h1 class="htitle">
+      <span>VOID</span>
+      <span style="font-size:0.5em;letter-spacing:0.4em;margin:0.3em 0;display:block;">ARTS</span>
+      <span style="font-size:0.27em;letter-spacing:0.3em;-webkit-text-fill-color:var(--muted);">CHARACTER DESIGN &amp; ILLUSTRATION</span>
+    </h1>
+    <p class="hsub">Dark character design, demon kings, cosmic entities</p>
+    <div class="hbtns">
+      <button class="bprimary" onclick="go('commissions')">ORDER COMMISSION</button>
+      <button class="boutline" onclick="go('gallery')">VIEW PORTFOLIO</button>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+      <div style="background:var(--card);border:1px solid var(--border);padding:0.7rem 1.4rem;text-align:center;"><div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--cyan)" id="hero-slots">3</div><div style="font-size:0.68rem;color:var(--muted);letter-spacing:0.1em">OPEN SLOTS</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:0.7rem 1.4rem;text-align:center;"><div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--red)" id="hero-queue">0</div><div style="font-size:0.68rem;color:var(--muted);letter-spacing:0.1em">IN QUEUE</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:0.7rem 1.4rem;text-align:center;"><div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--gold)">★4.9</div><div style="font-size:0.68rem;color:var(--muted);letter-spacing:0.1em">RATING</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMMISSIONS ===== -->
+<div id="page-commissions" class="page">
+  <div class="sec">
+    <div class="eyebrow">COMMISSION CATALOG</div>
+    <h2 class="sectitle">Available Services</h2>
+    <div class="divider"></div>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.4rem;" id="cat-filters"></div>
+    <div class="cgrid" id="comm-grid"></div>
+  </div>
+</div>
+
+<!-- ===== GALLERY ===== -->
+<div id="page-gallery" class="page">
+  <div class="sec">
+    <div class="eyebrow">PORTFOLIO</div>
+    <h2 class="sectitle">Commission Gallery</h2>
+    <div class="divider"></div>
+    <div class="ggrid" id="gallery-grid"></div>
+  </div>
+</div>
+
+<!-- ===== QUEUE ===== -->
+<div id="page-queue" class="page">
+  <div class="sec">
+    <div class="eyebrow">COMMISSION QUEUE</div>
+    <h2 class="sectitle">Current Queue</h2>
+    <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.8rem;">Your slot glows when it's your turn</p>
+    <div class="divider"></div>
+    <div id="queue-list" style="max-width:800px;margin:0 auto;"></div>
+  </div>
+</div>
+
+<!-- ===== VIDEOS ===== -->
+<div id="page-videos" class="page">
+  <div class="sec">
+    <div class="eyebrow">SHOWCASE</div>
+    <h2 class="sectitle">Speed Paints &amp; Process</h2>
+    <div class="divider"></div>
+    <div class="vgrid" id="video-grid"></div>
+  </div>
+</div>
+
+<!-- ===== FREEBIES ===== -->
+<div id="page-freebies" class="page">
+  <div class="sec">
+    <div class="eyebrow">FREE RESOURCES</div>
+    <h2 class="sectitle">Free Downloads</h2>
+    <div class="divider"></div>
+    <div class="fbgrid" id="freebies-grid"></div>
+  </div>
+</div>
+
+<!-- ===== REVIEWS ===== -->
+<div id="page-reviews" class="page">
+  <div class="sec">
+    <div class="eyebrow">CLIENT FEEDBACK</div>
+    <h2 class="sectitle">Reviews</h2>
+    <div class="divider"></div>
+    <div style="display:flex;gap:2rem;align-items:center;margin-bottom:2rem;flex-wrap:wrap;">
+      <div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:2.8rem;">4.9</div><div style="color:var(--gold);font-size:1.1rem;">★★★★★</div><div style="font-size:0.72rem;color:var(--muted);margin-top:0.22rem;" id="rv-count">0 reviews</div></div>
+      <div id="rv-actions"></div>
+    </div>
+    <div class="rgrid" id="review-grid"></div>
+  </div>
+</div>
+
+<!-- ===== CHANNELS ===== -->
+<div id="page-channels" class="page">
+  <div style="padding:1rem 2rem 0;max-width:1300px;margin:0 auto;">
+    <div class="eyebrow">COMMUNITY</div>
+    <h2 class="sectitle">Channels</h2>
+    <div class="divider" style="margin-bottom:0;"></div>
+  </div>
+  <div style="padding:0 2rem 1rem;max-width:1300px;margin:0 auto;">
+    <div class="chlayout">
+      <div class="chsidebar" id="ch-sidebar"></div>
+      <div class="chmain" id="ch-main"><div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--font-mono);font-size:0.8rem;">Select a channel</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAT (DM) ===== -->
+<div id="page-chat" class="page">
+  <div style="padding:1rem 2rem 0;max-width:1100px;margin:0 auto;">
+    <div class="eyebrow">PRIVATE MESSAGING</div>
+    <h2 class="sectitle">Direct Chat</h2>
+    <div class="divider" style="margin-bottom:0;"></div>
+  </div>
+  <div style="padding:0 2rem 1rem;max-width:1100px;margin:0 auto;">
+    <div class="clayout" id="chat-layout"></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div id="page-admin" class="page">
+  <div class="alayout">
+    <div class="asidebar" id="admin-sidebar"></div>
+    <div class="acontent" id="admin-content"></div>
+  </div>
+</div>
+
+</div><!-- /#app -->
+
+<!-- GLOBAL CHAT WIDGET -->
+<div class="gchat" id="gchat">
+  <div class="gchead" onclick="toggleGC()">
+    <span class="gctitle">✦ GLOBAL CHAT</span>
+    <span id="gctoggle" style="color:var(--muted);font-size:0.72rem;">▲ OPEN</span>
+  </div>
+  <div class="gcbody">
+    <div class="gcmsgs" id="gcmsgs"></div>
+    <div class="gcinput-row">
+      <input class="gcinput" id="gcinput" placeholder="Message..." maxlength="200" onkeydown="if(event.key==='Enter')sendGC()">
+      <button class="gcsend" onclick="sendGC()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<!-- AUTH -->
+<div class="moverlay" id="m-auth">
+  <div class="mbox" style="max-width:400px;">
+    <button class="mclose" onclick="cm('m-auth')">✕</button>
+    <div style="display:flex;margin-bottom:1.2rem;border-bottom:1px solid var(--border);">
+      <button class="atab on" id="at-login" onclick="switchAT('login')">LOGIN</button>
+      <button class="atab" id="at-reg" onclick="switchAT('reg')">REGISTER</button>
+      <button class="atab" id="at-staff" onclick="switchAT('staff')">STAFF</button>
+    </div>
+    <div id="af-login">
+      <div class="mtitle">Welcome Back</div>
+      <div id="e-login" class="ae err" style="display:none;"></div>
+      <div class="fg"><label class="fl">Username</label><input class="fi" id="li-u"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fi" id="li-p" type="password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="bprimary" style="width:100%;" onclick="doLogin()">ENTER THE VOID</button>
+    </div>
+    <div id="af-reg" style="display:none;">
+      <div class="mtitle">Create Account</div>
+      <div id="e-reg" class="ae err" style="display:none;"></div>
+      <div id="ok-reg" class="ae ok" style="display:none;"></div>
+      <div class="fg"><label class="fl">Username</label><input class="fi" id="rg-u" maxlength="20"></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="rg-e" type="email"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fi" id="rg-p" type="password"></div>
+      <div class="fg"><label class="fl">Confirm Password</label><input class="fi" id="rg-p2" type="password" onkeydown="if(event.key==='Enter')doReg()"></div>
+      <button class="bprimary" style="width:100%;" onclick="doReg()">CREATE ACCOUNT</button>
+    </div>
+    <div id="af-staff" style="display:none;">
+      <div class="mtitle">Staff Access</div>
+      <div id="e-staff" class="ae err" style="display:none;"></div>
+      <div class="fg"><label class="fl">Access Code</label><input class="fi" id="st-code" type="password" onkeydown="if(event.key==='Enter')doStaff()"></div>
+      <button class="bprimary" style="width:100%;" onclick="doStaff()">ACCESS PANEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER -->
+<div class="moverlay" id="m-order">
+  <div class="mbox" style="max-width:560px;">
+    <button class="mclose" onclick="cm('m-order')">✕</button>
+    <div class="mtitle" id="ord-title">Place Order</div>
+    <div id="e-ord" class="ae err" style="display:none;"></div>
+    <div id="ok-ord" class="ae ok" style="display:none;"></div>
+    <div class="fg"><label class="fl">Type</label><input class="fi" id="ord-type" readonly></div>
+    <div class="fg"><label class="fl">Character Description</label><textarea class="fta" id="ord-desc" rows="4" placeholder="Describe your character, pose, mood, colors..."></textarea></div>
+    <div class="fg"><label class="fl">Reference URLs (comma separated)</label><input class="fi" id="ord-refs" placeholder="https://..."></div>
+    <div class="fg"><label class="fl">Deadline</label>
+      <select class="fsel" id="ord-dead"><option>Standard (Artist's pace)</option><option>Rush +50% (48h)</option><option>Express +100% (24h)</option></select></div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="ord-notes" rows="2"></textarea></div>
+    <div style="display:flex;gap:1rem;"><button class="bprimary" onclick="submitOrd()">SUBMIT ORDER</button><button class="boutline" onclick="cm('m-order')">CANCEL</button></div>
+  </div>
+</div>
+
+<!-- ADMIN ORDER -->
+<div class="moverlay" id="m-aorder">
+  <div class="mbox" style="max-width:580px;">
+    <button class="mclose" onclick="cm('m-aorder')">✕</button>
+    <div class="mtitle" id="ao-title">Add Order</div>
+    <div id="e-ao" class="ae err" style="display:none;"></div>
+    <div class="fg"><label class="fl">Client Username / Name</label><input class="fi" id="ao-user" placeholder="Username or external client name (e.g. Twitter: @user)"></div>
+    <div class="fg"><label class="fl">Commission Type</label><input class="fi" id="ao-type" list="ao-type-dl"><datalist id="ao-type-dl"></datalist></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fta" id="ao-desc" rows="3"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.85rem;">
+      <div class="fg"><label class="fl">Price (฿)</label><input class="fi" id="ao-price" type="number" placeholder="0"></div>
+      <div class="fg"><label class="fl">Status</label>
+        <select class="fsel" id="ao-status"><option value="pending">Pending</option><option value="in_progress">In Progress</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+      <div class="fg"><label class="fl">Source</label><input class="fi" id="ao-src" placeholder="e.g. Twitter, Discord"></div>
+    </div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="ao-notes" rows="2"></textarea></div>
+    <button class="bprimary" onclick="saveAOrder()">SAVE ORDER</button>
+  </div>
+</div>
+
+<!-- REVIEW -->
+<div class="moverlay" id="m-review">
+  <div class="mbox" style="max-width:460px;">
+    <button class="mclose" onclick="cm('m-review')">✕</button>
+    <div class="mtitle">Write a Review</div>
+    <div class="fg"><label class="fl">Rating</label>
+      <div id="star-inp" style="font-size:1.7rem;cursor:pointer;letter-spacing:0.1em;">
+        <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
+      </div></div>
+    <div class="fg"><label class="fl">Commission Type</label><input class="fi" id="rv-type"></div>
+    <div class="fg"><label class="fl">Review</label><textarea class="fta" id="rv-text" rows="4"></textarea></div>
+    <button class="bprimary" onclick="submitRv()">POST REVIEW</button>
+  </div>
+</div>
+
+<!-- ADD/EDIT COMM -->
+<div class="moverlay" id="m-comm">
+  <div class="mbox" style="max-width:560px;">
+    <button class="mclose" onclick="cm('m-comm')">✕</button>
+    <div class="mtitle" id="cm-title">Add Commission</div>
+    <div class="fg"><label class="fl">Title</label><input class="fi" id="cm-t"></div>
+    <div class="fg"><label class="fl">Category</label><input class="fi" id="cm-cat" list="cm-cat-dl"><datalist id="cm-cat-dl"></datalist></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fta" id="cm-desc" rows="3"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;">
+      <div class="fg"><label class="fl">Price (฿)</label><input class="fi" id="cm-price" type="number"></div>
+      <div class="fg"><label class="fl">Status</label>
+        <select class="fsel" id="cm-status"><option value="open">Open</option><option value="closed">Closed</option><option value="waitlist">Waitlist</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">Tags (comma separated)</label><input class="fi" id="cm-tags"></div>
+    <div class="fg"><label class="fl">Delivery Time</label><input class="fi" id="cm-del" placeholder="e.g. 5-7 days"></div>
+    <button class="bprimary" onclick="saveCM()">SAVE</button>
+  </div>
+</div>
+
+<!-- STAFF CODES (owner) -->
+<div class="moverlay" id="m-codes">
+  <div class="mbox" style="max-width:520px;">
+    <button class="mclose" onclick="cm('m-codes')">✕</button>
+    <div class="mtitle">Staff Codes Manager</div>
+    <div id="codes-list" style="margin-bottom:1.25rem;max-height:280px;overflow-y:auto;"></div>
+    <div class="fg"><label class="fl">New Access Code</label><input class="fi" id="sc-code" placeholder="e.g. STAFF_ART_2024"></div>
+    <div class="fg"><label class="fl">Rank / Title</label><input class="fi" id="sc-rank" placeholder="e.g. Artist, Moderator"></div>
+    <button class="bgold" onclick="addSCode()">+ ADD CODE</button>
+  </div>
+</div>
+
+<!-- ADD CHANNEL -->
+<div class="moverlay" id="m-addch">
+  <div class="mbox" style="max-width:380px;">
+    <button class="mclose" onclick="cm('m-addch')">✕</button>
+    <div class="mtitle" id="addch-title">Add Channel</div>
+    <div class="fg"><label class="fl">Channel Name</label><input class="fi" id="ch-name" placeholder="e.g. general"></div>
+    <input type="hidden" id="ch-type" value="text">
+    <button class="bprimary" onclick="confirmAddCh()">CREATE CHANNEL</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="moverlay" id="m-lb">
+  <div style="position:relative;">
+    <button class="mclose" onclick="cm('m-lb')" style="position:absolute;top:-2rem;right:0;color:var(--white);font-size:1.2rem;">✕</button>
+    <img id="lb-img" src="" style="max-width:90vw;max-height:85vh;object-fit:contain;">
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA + CONSTANTS
+// ============================================================
+const OWNER_CODE='13072006aA!';
+const OWNER_RANK='VoidZero';
+const PROF_DEFAULT=['เหี้ย','ควย','สัตว์','อีสัตว์','แม่ง','เชี่ย','สาด','fuck','shit','bitch','ass','cunt','bastard'];
+
+function gd(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
+function sd(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('Storage full! Try clearing old media files.');}}
+function uid(){return 'i'+Math.random().toString(36).substr(2,8)+Date.now();}
+function fmtDate(){return new Date().toISOString().split('T')[0];}
+function fmtTime(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+
+// Init defaults
+!gd('va_codes',null)&&sd('va_codes',[{id:'owner',code:OWNER_CODE,rank:OWNER_RANK,isOwner:true}]);
+!gd('va_users',null)&&sd('va_users',[{id:'u1',username:'demo_user',password:'demo123',email:'demo@void.art',banned:false,banReason:'',joinDate:'2024-01-15'}]);
+!gd('va_comms',null)&&sd('va_comms',[
+  {id:'c1',title:'Demon King Full Body',category:'Character Design',desc:'Full body illustration with intricate armor and dark magic effects.',price:1800,status:'open',tags:['character','full body','dark'],delivery:'7-10 days'},
+  {id:'c2',title:'Half Body Character',category:'Character Design',desc:'Half body with detailed shading and atmospheric background.',price:900,status:'open',tags:['character','half body'],delivery:'4-5 days'},
+  {id:'c3',title:'Character Sheet',category:'Character Design',desc:'Front, side, back views + expression sheet.',price:2500,status:'waitlist',tags:['reference','sheet'],delivery:'10-14 days'},
+  {id:'c4',title:'Chibi Character',category:'Chibi',desc:'Super-deformed cute style.',price:500,status:'open',tags:['chibi','cute'],delivery:'2-3 days'},
+  {id:'c5',title:'Icon / Avatar',category:'Avatar',desc:'Bust shot icon for social media.',price:350,status:'open',tags:['icon','avatar'],delivery:'1-2 days'},
+  {id:'c6',title:'Weapon/Item Design',category:'Concept Art',desc:'Detailed weapon or item design with multiple views.',price:700,status:'closed',tags:['weapon','concept'],delivery:'3-4 days'},
+]);
+!gd('va_queue',null)&&sd('va_queue',[
+  {id:'q1',user:'StarCrafter',type:'Demon King Full Body',status:'done',date:'2024-01-10'},
+  {id:'q2',user:'MoonWitch',type:'Character Sheet',status:'done',date:'2024-01-11'},
+  {id:'q3',user:'VoidHunter',type:'Half Body',status:'inprogress',date:'2024-01-12'},
+  {id:'q4',user:'DarkKnight',type:'Chibi',status:'pending',date:'2024-01-13'},
+  {id:'q5',user:'CosmicDemon',type:'Weapon',status:'pending',date:'2024-01-14'},
+]);
+!gd('va_reviews',null)&&sd('va_reviews',[
+  {id:'r1',user:'StarCrafter',rating:5,type:'Full Body',text:'Absolutely stunning! The detail on the armor was beyond what I imagined.',date:'2024-01-10',approved:true},
+  {id:'r2',user:'MoonWitch',rating:5,type:'Character Sheet',text:'Amazing work! The character looks exactly as I envisioned.',date:'2024-01-11',approved:true},
+  {id:'r3',user:'CosmicDemon',rating:5,type:'Chibi',text:'Super cute chibi! Fast delivery too!',date:'2024-01-12',approved:true},
+]);
+!gd('va_msgs',null)&&sd('va_msgs',{'u1':[{sender:'admin',text:'Welcome to Void Arts! How can I help you?',time:'10:00'}]});
+!gd('va_gchat',null)&&sd('va_gchat',[{user:'VoidArtist',text:'Welcome to Void Arts community! 🖤',time:'09:00'},{user:'StarCrafter',text:'Love the new demon piece!',time:'09:15'}]);
+!gd('va_bans',null)&&sd('va_bans',[]);
+!gd('va_gallery',null)&&sd('va_gallery',[
+  {id:'g1',title:'Demon King',type:'Full Body',url:'',data:'',ph:true},
+  {id:'g2',title:'Star Witch',type:'Half Body',url:'',data:'',ph:true},
+  {id:'g3',title:'Void Dragon',type:'Character Sheet',url:'',data:'',ph:true},
+]);
+!gd('va_videos',null)&&sd('va_videos',[
+  {id:'v1',title:'Speed Paint: Demon Overlord',url:'',data:'',date:'2024-01-05',views:342},
+  {id:'v2',title:'Full Process: Character Sheet',url:'',data:'',date:'2023-12-20',views:891},
+]);
+!gd('va_freebies',null)&&sd('va_freebies',[
+  {id:'f1',name:'Dark Fantasy Brushes',size:'2.4 MB',icon:'🖌',url:'',data:''},
+  {id:'f2',name:'Cosmic Texture Pack',size:'8.1 MB',icon:'🌌',url:'',data:''},
+  {id:'f3',name:'Pose Reference Sheet',size:'1.2 MB',icon:'📐',url:'',data:''},
+  {id:'f4',name:'Dark Color Palettes',size:'0.3 MB',icon:'🎨',url:'',data:''},
+]);
+!gd('va_orders',null)&&sd('va_orders',[
+  {id:'o1',user:'StarCrafter',type:'Full Body',desc:'Dark elf warrior with twin blades',status:'completed',date:'2024-01-08',price:1800,source:'Website',notes:''},
+  {id:'o2',user:'MoonWitch',type:'Character Sheet',desc:'Celestial mage character ref',status:'in_progress',date:'2024-01-12',price:2500,source:'Discord',notes:''},
+]);
+!gd('va_channels',null)&&sd('va_channels',[
+  {id:'ch1',name:'general',type:'text',msgs:[]},
+  {id:'ch2',name:'art-wip',type:'text',msgs:[]},
+  {id:'ch3',name:'commissions',type:'text',msgs:[]},
+  {id:'ch4',name:'General Voice',type:'voice',users:[]},
+]);
+!gd('va_profanity',null)&&sd('va_profanity',PROF_DEFAULT);
+
+// ============================================================
+// SESSION
+// ============================================================
+let CU=gd('va_session',null);
+let activeFilter='all';
+let editCMId=null;
+let editOrdId=null;
+let curChatUser=null;
+let curRating=5;
+let activeCh=null;
+let voiceOn=false;
+let ssOn=false;
+let ssStream=null;
+// pending upload buffers
+let _glData='',_vdData='',_fbData='',_fbName='',_fbSize='';
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload=function(){
+  initBH(); initStars();
+  updateUI();
+  renderComms(); renderQueue(); renderReviews(); renderGallery(); renderVideos(); renderFreebies(); renderGC(); renderChSidebar();
+  setRating(5);
+  checkBan();
+};
+
+function checkBan(){
+  const bans=gd('va_bans',[]);
+  let dev=localStorage.getItem('va_dev')||uid(); localStorage.setItem('va_dev',dev);
+  const hit=bans.find(b=>b.deviceId===dev||(CU&&(b.username===CU.username||b.ip===CU.ip)));
+  if(hit){document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#e53935;font-family:sans-serif;text-align:center;padding:2rem;"><div><div style="font-size:4rem;">⛔</div><h1 style="margin:1rem 0">ACCESS DENIED</h1><p>You have been banned.<br>Reason: ${hit.reason||'Violation of terms'}</p></div></div>`;}
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function openAuth(){om('m-auth');}
+function switchAT(t){
+  ['login','reg','staff'].forEach(x=>{
+    document.getElementById('af-'+x).style.display=x===t?'block':'none';
+    document.getElementById('at-'+x).classList.toggle('on',x===t);
+  });
+}
+function doLogin(){
+  const u=document.getElementById('li-u').value.trim();
+  const p=document.getElementById('li-p').value;
+  const users=gd('va_users',[]);
+  const user=users.find(x=>x.username===u&&x.password===p);
+  if(!user){serr('e-login','Invalid username or password');return;}
+  if(user.banned){serr('e-login','Account banned: '+(user.banReason||'Violation'));return;}
+  CU={id:user.id,username:user.username,email:user.email,isStaff:false,isOwner:false,rank:'User'};
+  sd('va_session',CU); cm('m-auth'); updateUI(); toast('Welcome back, '+user.username+'!');
+}
+function doReg(){
+  const u=document.getElementById('rg-u').value.trim();
+  const e=document.getElementById('rg-e').value.trim();
+  const p=document.getElementById('rg-p').value;
+  const p2=document.getElementById('rg-p2').value;
+  document.getElementById('e-reg').style.display='none';
+  if(!u||!e||!p){serr('e-reg','All fields required');return;}
+  if(p!==p2){serr('e-reg','Passwords do not match');return;}
+  if(p.length<6){serr('e-reg','Password min 6 characters');return;}
+  if(!/^[a-zA-Z0-9_]+$/.test(u)){serr('e-reg','Username: letters, numbers, underscore only');return;}
+  const users=gd('va_users',[]);
+  if(users.find(x=>x.username===u)){serr('e-reg','Username taken');return;}
+  if(users.find(x=>x.email===e)){serr('e-reg','Email already registered');return;}
+  users.push({id:uid(),username:u,email:e,password:p,banned:false,banReason:'',joinDate:fmtDate()});
+  sd('va_users',users);
+  document.getElementById('e-reg').style.display='none';
+  document.getElementById('ok-reg').textContent='Account created! You can now login.';
+  document.getElementById('ok-reg').style.display='block';
+  setTimeout(()=>switchAT('login'),1600);
+}
+function doStaff(){
+  const code=document.getElementById('st-code').value;
+  const codes=gd('va_codes',[]);
+  const found=codes.find(c=>c.code===code);
+  if(!found){serr('e-staff','Invalid access code');return;}
+  const isOwner=found.isOwner||found.code===OWNER_CODE;
+  CU={id:'staff_'+found.id,username:found.rank,email:'staff@void.art',isStaff:true,isOwner,rank:found.rank};
+  sd('va_session',CU); cm('m-auth'); updateUI();
+  toast((isOwner?'👑 Owner':'⚙ Staff')+' — '+found.rank);
+  go('admin'); buildAdminNav(); renderATab('dashboard');
+}
+function doLogout(){CU=null;localStorage.removeItem('va_session');updateUI();go('home');toast('Logged out.');}
+
+function updateUI(){
+  const li=!!CU; const isStaff=CU&&CU.isStaff; const isOwner=CU&&CU.isOwner;
+  document.getElementById('auth-btn').style.display=li?'none':'inline-block';
+  document.getElementById('logout-btn').style.display=li?'inline-block':'none';
+  document.getElementById('panel-btn').style.display=isStaff?'inline-block':'none';
+  document.getElementById('chat-btn').style.display=li&&!isStaff?'inline-block':'none';
+  if(isOwner){document.getElementById('panel-btn').className='nb gold';}
+  else if(isStaff){document.getElementById('panel-btn').className='nb on';}
+  document.getElementById('uname').textContent=li?CU.username:'';
+  const rb=document.getElementById('rbadge-el');
+  rb.innerHTML=li?(isOwner?`<span class="rbadge owner">👑 ${CU.rank}</span>`:isStaff?`<span class="rbadge admin">⚙ ${CU.rank}</span>`:''):'';
+  document.getElementById('rv-actions').innerHTML=li&&!isStaff
+    ?`<button class="bprimary" style="font-size:0.78rem;padding:0.5rem 1.4rem;" onclick="om('m-review')">WRITE A REVIEW</button>`
+    :`<a href="#" onclick="openAuth()" style="color:var(--red);text-decoration:none;font-size:0.85rem;">Login</a> to write a review`;
+  const addT=document.getElementById('addt-btn');
+  const addV=document.getElementById('addv-btn');
+  if(addT)addT.style.display=isStaff?'inline':'none';
+  if(addV)addV.style.display=isStaff?'inline':'none';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);if(!pg)return;pg.classList.add('active');
+  if(id==='admin'){if(!CU||!CU.isStaff){openAuth();return;}buildAdminNav();renderATab('dashboard');}
+  if(id==='chat'){if(!CU){openAuth();return;}renderChat();}
+  if(id==='channels'){renderChSidebar();}
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// COMMISSIONS
+// ============================================================
+function renderComms(){
+  const comms=gd('va_comms',[]);
+  const grid=document.getElementById('comm-grid');
+  const fbar=document.getElementById('cat-filters');
+  if(!grid||!fbar)return;
+  const cats=['all',...new Set(comms.map(c=>c.category))];
+  fbar.innerHTML=cats.map(cat=>`<button class="nb ${cat===activeFilter?'on':''}" onclick="filterC('${cat}',this)">${cat.toUpperCase()}</button>`).join('');
+  const list=activeFilter==='all'?comms:comms.filter(c=>c.category===activeFilter);
+  grid.innerHTML=list.map(c=>`<div class="ccard" onclick="openOrd('${c.id}')">
+    <div class="cbadge ${c.status}">${c.status.toUpperCase()}</div>
+    <div class="ctitle">${c.title}</div>
+    <div class="cdesc">${c.desc}</div>
+    <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem;">📅 ${c.delivery}</div>
+    <div class="cprice">฿${Number(c.price).toLocaleString()} <span style="font-size:0.7rem;color:var(--muted);">/ commission</span></div>
+    <div style="display:flex;gap:0.38rem;flex-wrap:wrap;margin-top:0.65rem;">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div style="margin-top:0.65rem;font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">${c.category}</div>
+  </div>`).join('');
+}
+function filterC(cat,btn){
+  activeFilter=cat;
+  document.querySelectorAll('#cat-filters .nb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); renderComms();
+}
+function openOrd(cid){
+  if(!CU){openAuth();return;}
+  if(CU.isStaff){toast('Admins use Admin > Add Order.');return;}
+  const c=gd('va_comms',[]).find(x=>x.id===cid);if(!c)return;
+  if(c.status==='closed'){toast('Commission currently closed.');return;}
+  document.getElementById('ord-title').textContent='Order: '+c.title;
+  document.getElementById('ord-type').value=c.title;
+  ['e-ord','ok-ord'].forEach(id=>document.getElementById(id).style.display='none');
+  om('m-order');
+}
+function submitOrd(){
+  const desc=document.getElementById('ord-desc').value.trim();
+  if(!desc){serr('e-ord','Please describe your commission.');return;}
+  const f=filterProf(desc);if(f.bad){serr('e-ord','Message contains inappropriate language.');return;}
+  const o={id:uid(),user:CU.username,type:document.getElementById('ord-type').value,desc:f.text,status:'pending',date:fmtDate(),price:0,source:'Website',deadline:document.getElementById('ord-dead').value,notes:document.getElementById('ord-notes').value,refs:document.getElementById('ord-refs').value};
+  const orders=gd('va_orders',[]);orders.push(o);sd('va_orders',orders);
+  const q=gd('va_queue',[]);q.push({id:uid(),user:CU.username,type:o.type,status:'pending',date:o.date});sd('va_queue',q);
+  renderQueue();
+  document.getElementById('ok-ord').textContent='Order submitted! Check the queue for your position.';
+  document.getElementById('ok-ord').style.display='block';
+  document.getElementById('e-ord').style.display='none';
+  setTimeout(()=>cm('m-order'),2000);
+}
+
+// ============================================================
+// QUEUE
+// ============================================================
+function renderQueue(){
+  const q=gd('va_queue',[]);
+  const el=document.getElementById('queue-list');if(!el)return;
+  el.innerHTML=q.map((item,i)=>{
+    const mine=CU&&CU.username===item.user;
+    const act=item.status==='inprogress';
+    return `<div class="qi ${act?'cur':''}">
+      <div class="qdot ${item.status==='done'?'dn':(act?'act':'')}"></div>
+      <div class="qnum">#${i+1}</div>
+      <div class="qinfo"><div class="qname">${mine?'⭐ ':''} ${item.user}</div><div class="qtype">${item.type}</div></div>
+      <div class="qstat qs-${item.status}">${item.status.toUpperCase()}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('hero-queue').textContent=q.filter(x=>x.status!=='done').length;
+}
+
+// ============================================================
+// GALLERY
+// ============================================================
+function renderGallery(){
+  const items=gd('va_gallery',[]);
+  const grid=document.getElementById('gallery-grid');if(!grid)return;
+  grid.innerHTML=items.map(item=>`<div class="gitem" onclick="openLB('${item.data||item.url}','${item.title}')">
+    ${(item.data||item.url)?`<img src="${item.data||item.url}" alt="${item.title}" loading="lazy">`
+    :`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;color:var(--muted);font-size:0.78rem;"><div style="font-size:2rem;opacity:0.28;">🎨</div><div>${item.title}</div><div style="font-size:0.68rem;">${item.type}</div></div>`}
+    <div class="gover"><div style="text-align:center;"><div style="font-size:1.1rem;">🔍</div><div style="font-size:0.75rem;margin-top:0.3rem;">${item.title}</div></div></div>
+  </div>`).join('');
+}
+function openLB(url,title){if(!url){toast('No image available.');return;}document.getElementById('lb-img').src=url;om('m-lb');}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+function renderReviews(){
+  const reviews=gd('va_reviews',[]).filter(r=>r.approved);
+  const grid=document.getElementById('review-grid');if(!grid)return;
+  document.getElementById('rv-count').textContent=reviews.length+' reviews';
+  grid.innerHTML=reviews.map(r=>`<div class="rcard">
+    <div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:0.9rem;">
+      <div class="ravatar">${r.user[0].toUpperCase()}</div>
+      <div><div style="font-weight:600;font-size:0.875rem;">${r.user}</div><div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--muted);">${r.date}</div></div>
+    </div>
+    <div style="color:var(--gold);font-size:0.88rem;margin-bottom:0.45rem;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+    <div style="font-size:0.8rem;color:var(--ghost);line-height:1.6;">${r.text}</div>
+    <div style="display:inline-block;margin-top:0.7rem;font-family:var(--font-mono);font-size:0.6rem;color:var(--muted);border:1px solid var(--border);padding:0.12rem 0.48rem;">${r.type}</div>
+  </div>`).join('');
+}
+function setRating(n){
+  curRating=n;
+  document.querySelectorAll('#star-inp span').forEach((s,i)=>{s.style.color=i<n?'var(--gold)':'var(--muted)';});
+}
+function submitRv(){
+  if(!CU){openAuth();return;}
+  const text=document.getElementById('rv-text').value.trim();
+  const type=document.getElementById('rv-type').value.trim();
+  if(!text||!type){toast('Fill all fields.');return;}
+  const f=filterProf(text);if(f.bad){toast('Please keep reviews appropriate.');return;}
+  const reviews=gd('va_reviews',[]);
+  reviews.push({id:uid(),user:CU.username,rating:curRating,type,text:f.text,date:fmtDate(),approved:true});
+  sd('va_reviews',reviews);renderReviews();cm('m-review');toast('Review posted!');
+}
+
+// ============================================================
+// VIDEOS
+// ============================================================
+function renderVideos(){
+  const videos=gd('va_videos',[]);
+  const grid=document.getElementById('video-grid');if(!grid)return;
+  grid.innerHTML=videos.map(v=>{
+    const src=v.data||v.url;
+    return `<div class="vcard">
+      <div class="vthumb">
+        ${src?`<video src="${src}" preload="metadata"></video>`:
+        `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><div style="text-align:center;color:var(--muted);"><div style="font-size:2.5rem;opacity:0.25;">🎬</div></div></div>`}
+        <div class="pover"><div class="pbtn" onclick="playV(this,'${v.id}')">▶</div></div>
+      </div>
+      <div style="padding:0.85rem;">
+        <div style="font-weight:600;margin-bottom:0.22rem;">${v.title}</div>
+        <div style="font-size:0.76rem;color:var(--muted);">${v.date} · ${v.views} views</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function playV(btn,vid){
+  const v=btn.closest('.vthumb').querySelector('video');
+  if(!v){toast('No video file yet.');return;}
+  if(v.paused){v.play();btn.textContent='⏸';}else{v.pause();btn.textContent='▶';}
+}
+
+// ============================================================
+// FREEBIES
+// ============================================================
+function renderFreebies(){
+  const list=gd('va_freebies',[]);
+  const grid=document.getElementById('freebies-grid');if(!grid)return;
+  grid.innerHTML=list.map(f=>`<div class="fbcard">
+    <div class="fbicon">${f.icon}</div>
+    <div style="font-weight:600;margin-bottom:0.45rem;">${f.name}</div>
+    <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:0.9rem;">${f.size}</div>
+    <div class="dlbtn" onclick="dlFree('${f.id}')">⬇ DOWNLOAD</div>
+  </div>`).join('');
+}
+function dlFree(id){
+  if(!CU){openAuth();return;}
+  const f=gd('va_freebies',[]).find(x=>x.id===id);if(!f)return;
+  const src=f.data||f.url;
+  if(src){const a=document.createElement('a');a.href=src;a.download=f.name;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+  else toast('Download not available yet.');
+}
+
+// ============================================================
+// GLOBAL CHAT
+// ============================================================
+function toggleGC(){const el=document.getElementById('gchat');el.classList.toggle('open');document.getElementById('gctoggle').textContent=el.classList.contains('open')?'▼ CLOSE':'▲ OPEN';}
+function renderGC(){
+  const msgs=gd('va_gchat',[]);const c=document.getElementById('gcmsgs');if(!c)return;
+  c.innerHTML=msgs.slice(-60).map(m=>`<div class="gcmsg"><span class="gcuser">${m.user}</span><span style="color:var(--ghost)">${m.text}</span></div>`).join('');
+  c.scrollTop=c.scrollHeight;
+}
+function sendGC(){
+  if(!CU){toast('Login to chat.');return;}
+  const inp=document.getElementById('gcinput');const text=inp.value.trim();if(!text)return;
+  const f=filterProf(text);
+  const msgs=gd('va_gchat',[]);
+  msgs.push({user:CU.username,text:f.text,time:fmtTime()});
+  if(msgs.length>100)msgs.splice(0,msgs.length-100);
+  sd('va_gchat',msgs);inp.value='';renderGC();
+}
+
+// ============================================================
+// CHANNELS
+// ============================================================
+function renderChSidebar(){
+  const chs=gd('va_channels',[]);
+  const isStaff=CU&&CU.isStaff;
+  const sb=document.getElementById('ch-sidebar');if(!sb)return;
+  const textChs=chs.filter(c=>c.type==='text');
+  const voiceChs=chs.filter(c=>c.type==='voice');
+  sb.innerHTML=`
+    <div class="chsec">
+      <div class="chsectitle">TEXT CHANNELS ${isStaff?`<button id="addt-btn" class="addbtn" onclick="addChModal('text')">+</button>`:''}</div>
+      ${textChs.map(c=>`<div class="chitem ${activeCh===c.id?'act':''}" onclick="openCh('${c.id}')">
+        <span class="chicon">#</span>${c.name}
+        ${isStaff?`<button class="addbtn" style="margin-left:auto" onclick="event.stopPropagation();delCh('${c.id}')">✕</button>`:''}
+      </div>`).join('')}
+    </div>
+    <div class="chsec">
+      <div class="chsectitle">VOICE ${isStaff?`<button id="addv-btn" class="addbtn" onclick="addChModal('voice')">+</button>`:''}</div>
+      ${voiceChs.map(c=>`<div class="chitem ${activeCh===c.id?'act':''}" onclick="openCh('${c.id}')">
+        <span class="chicon">🔊</span>${c.name}
+        ${isStaff?`<button class="addbtn" style="margin-left:auto" onclick="event.stopPropagation();delCh('${c.id}')">✕</button>`:''}
+      </div>`).join('')}
+    </div>`;
+}
+function openCh(cid){
+  activeCh=cid; renderChSidebar();
+  const chs=gd('va_channels',[]);const ch=chs.find(c=>c.id===cid);if(!ch)return;
+  const main=document.getElementById('ch-main');if(!main)return;
+  if(ch.type==='text')renderTextCh(ch,main);
+  else renderVoiceCh(ch,main);
+}
+function renderTextCh(ch,main){
+  main.innerHTML=`
+    <div style="padding:0.7rem 1.1rem;border-bottom:1px solid var(--border);background:var(--card);font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);"># ${ch.name}</div>
+    <div id="ch-msgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.6rem;">${(ch.msgs||[]).map(m=>`<div><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--cyan);margin-right:0.45rem;">${m.user}</span><span style="font-size:0.8rem;color:var(--ghost);">${m.text}</span><span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);margin-left:0.45rem;">${m.time||''}</span></div>`).join('')}</div>
+    <div style="padding:0.7rem 1rem;border-top:1px solid var(--border);background:var(--card);display:flex;gap:0.6rem;">
+      <input class="cinput" id="ch-inp" placeholder="Message #${ch.name}" onkeydown="if(event.key==='Enter')sendChMsg('${ch.id}')">
+      <button class="csend" onclick="sendChMsg('${ch.id}')">SEND</button>
+    </div>`;
+  const m=document.getElementById('ch-msgs');if(m)m.scrollTop=m.scrollHeight;
+}
+function renderVoiceCh(ch,main){
+  main.innerHTML=`
+    <div style="padding:0.7rem 1.1rem;border-bottom:1px solid var(--border);background:var(--card);font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);">🔊 ${ch.name}</div>
+    <div class="vroom">
+      <div class="ssarea" id="ss-area">
+        <div style="text-align:center;color:var(--muted);"><div style="font-size:3rem;margin-bottom:0.85rem;opacity:0.25;">📺</div><div style="font-family:var(--font-mono);font-size:0.78rem;">Screen share inactive</div></div>
+      </div>
+      <div class="vctrls">
+        <button class="vbtn ${voiceOn?'av':''}" id="mic-btn" onclick="toggleMic()">🎤 ${voiceOn?'MUTE':'MIC'}</button>
+        <button class="vbtn ss ${ssOn?'on':''}" id="ss-btn" onclick="toggleSS()">📺 ${ssOn?'STOP SHARE':'SHARE SCREEN'}</button>
+        <button class="vbtn" onclick="leaveVoice()" style="border-color:var(--red);color:var(--red);">📵 LEAVE</button>
+      </div>
+      <div style="margin-top:1.4rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">IN CHANNEL</div>
+        <div id="voice-users" style="display:flex;gap:0.7rem;flex-wrap:wrap;"></div>
+      </div>
+    </div>`;
+  const el=document.getElementById('voice-users');
+  const users=ch.users||[];
+  el.innerHTML=users.length?users.map(u=>`<div style="background:var(--card);border:1px solid var(--border);padding:0.45rem 0.85rem;font-size:0.8rem;">${u}</div>`).join(''):`<div style="color:var(--muted);font-size:0.8rem;">No one here yet</div>`;
+}
+function toggleMic(){
+  if(!CU){toast('Login first.');return;}
+  voiceOn=!voiceOn;
+  const btn=document.getElementById('mic-btn');
+  if(btn){btn.textContent='🎤 '+(voiceOn?'MUTE':'MIC');btn.className='vbtn '+(voiceOn?'av':'');}
+  toast(voiceOn?'Mic on (simulated)':'Mic muted');
+}
+async function toggleSS(){
+  if(!CU){toast('Login first.');return;}
+  const area=document.getElementById('ss-area');
+  if(!ssOn){
+    try{
+      ssStream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});
+      ssOn=true;
+      const v=document.createElement('video');v.srcObject=ssStream;v.autoplay=true;v.style.cssText='width:100%;height:100%;object-fit:contain;';
+      if(area){area.innerHTML='';area.appendChild(v);}
+      const btn=document.getElementById('ss-btn');if(btn){btn.classList.add('on');btn.textContent='📺 STOP SHARE';}
+      ssStream.getVideoTracks()[0].onended=stopSS;
+    }catch(e){toast('Screen share cancelled.');}
+  }else stopSS();
+}
+function stopSS(){
+  ssOn=false;if(ssStream){ssStream.getTracks().forEach(t=>t.stop());ssStream=null;}
+  const area=document.getElementById('ss-area');
+  if(area)area.innerHTML=`<div style="text-align:center;color:var(--muted);"><div style="font-size:3rem;opacity:0.25;">📺</div><div style="font-family:var(--font-mono);font-size:0.78rem;margin-top:0.85rem;">Screen share inactive</div></div>`;
+  const btn=document.getElementById('ss-btn');if(btn){btn.classList.remove('on');btn.textContent='📺 SHARE SCREEN';}
+}
+function leaveVoice(){voiceOn=false;stopSS();toast('Left voice channel.');}
+function sendChMsg(cid){
+  if(!CU){toast('Login to chat.');return;}
+  const inp=document.getElementById('ch-inp');if(!inp)return;
+  const text=inp.value.trim();if(!text)return;
+  const f=filterProf(text);
+  const chs=gd('va_channels',[]);const ch=chs.find(c=>c.id===cid);if(!ch)return;
+  if(!ch.msgs)ch.msgs=[];
+  ch.msgs.push({user:CU.username,text:f.text,time:fmtTime()});
+  if(ch.msgs.length>200)ch.msgs.splice(0,ch.msgs.length-200);
+  sd('va_channels',chs);inp.value='';openCh(cid);
+}
+function addChModal(type){
+  document.getElementById('addch-title').textContent=type==='text'?'Add Text Channel':'Add Voice Channel';
+  document.getElementById('ch-type').value=type;
+  document.getElementById('ch-name').value='';
+  om('m-addch');
+}
+function confirmAddCh(){
+  const name=document.getElementById('ch-name').value.trim().toLowerCase().replace(/\s+/g,'-');
+  const type=document.getElementById('ch-type').value;
+  if(!name){toast('Enter channel name.');return;}
+  const chs=gd('va_channels',[]);
+  chs.push({id:uid(),name,type,msgs:[],users:[]});
+  sd('va_channels',chs);cm('m-addch');renderChSidebar();toast('Channel #'+name+' created!');
+}
+function delCh(cid){
+  if(!confirm('Delete this channel?'))return;
+  let chs=gd('va_channels',[]);chs=chs.filter(c=>c.id!==cid);sd('va_channels',chs);
+  if(activeCh===cid){activeCh=null;const m=document.getElementById('ch-main');if(m)m.innerHTML='<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--font-mono);font-size:0.8rem;">Select a channel</div>';}
+  renderChSidebar();
+}
+
+// ============================================================
+// PRIVATE CHAT
+// ============================================================
+function renderChat(){
+  const layout=document.getElementById('chat-layout');if(!layout)return;
+  const users=gd('va_users',[]);const msgs=gd('va_msgs',{});
+  const isStaff=CU&&CU.isStaff;
+  if(!isStaff&&!curChatUser)curChatUser=CU.id;
+  let sidebar='';
+  if(isStaff){
+    sidebar=users.map(u=>{
+      const um=msgs[u.id]||[];const last=um[um.length-1];
+      return `<div class="cui ${curChatUser===u.id?'act':''}" onclick="selChat('${u.id}')">
+        <div class="cava">${u.username[0].toUpperCase()}</div>
+        <div style="overflow:hidden;flex:1;"><div style="font-size:0.8rem;font-weight:600;">${u.username}</div><div style="font-size:0.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${last?last.text:'No messages'}</div></div>
+      </div>`;
+    }).join('');
+  }else{
+    sidebar=`<div class="cui act"><div class="cava">A</div><div><div style="font-size:0.8rem;font-weight:600;">Admin Support</div><div style="font-size:0.7rem;color:var(--muted);">Private channel</div></div></div>`;
+  }
+  const umsg=(msgs[curChatUser]||[]).map(m=>{
+    const mine=isStaff?m.sender==='admin':m.sender!=='admin';
+    return `<div class="msg ${mine?'mine':''}"><div><div class="mbubble">${m.text}</div><div class="mtime">${m.time||''}</div></div></div>`;
+  }).join('');
+  const partner=isStaff&&curChatUser?(users.find(u=>u.id===curChatUser)||{username:'Select user'}).username:'Admin Support';
+  layout.innerHTML=`
+    <div class="csidebar"><div class="cstitle">${isStaff?'ALL USERS':'SUPPORT'}</div>${sidebar}</div>
+    <div class="cmain">
+      <div class="cheader"><div class="cava">${partner[0]}</div><div><div style="font-weight:600;font-size:0.875rem;">${partner}</div><div style="font-size:0.7rem;color:var(--muted);">Private Channel</div></div></div>
+      <div class="cmsgs" id="priv-msgs">${umsg||'<div style="text-align:center;color:var(--muted);margin-top:2rem;font-size:0.875rem;">No messages yet</div>'}</div>
+      <div class="cinput-area"><input class="cinput" id="priv-inp" placeholder="Message..." maxlength="500" onkeydown="if(event.key==='Enter')sendPriv()"><button class="csend" onclick="sendPriv()">SEND →</button></div>
+    </div>`;
+  setTimeout(()=>{const e=document.getElementById('priv-msgs');if(e)e.scrollTop=e.scrollHeight;},50);
+}
+function selChat(uid){curChatUser=uid;renderChat();}
+function sendPriv(){
+  const inp=document.getElementById('priv-inp');if(!inp)return;
+  const text=inp.value.trim();if(!text||!curChatUser)return;
+  const f=filterProf(text);if(f.bad){toast('Inappropriate language detected.');return;}
+  const msgs=gd('va_msgs',{});
+  if(!msgs[curChatUser])msgs[curChatUser]=[];
+  msgs[curChatUser].push({sender:CU.isStaff?'admin':CU.id,text:f.text,time:fmtTime()});
+  sd('va_msgs',msgs);renderChat();
+}
+
+// ============================================================
+// PROFANITY
+// ============================================================
+function filterProf(text){
+  let list=gd('va_profanity',[]);let bad=false;let out=text;
+  list.forEach(w=>{const rx=new RegExp(w,'gi');if(rx.test(out)){bad=true;out=out.replace(rx,'*'.repeat(w.length));}});
+  return{text:out,bad};
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+function buildAdminNav(){
+  const isOwner=CU&&CU.isOwner;
+  const sb=document.getElementById('admin-sidebar');if(!sb)return;
+  const items=[
+    ['dashboard','📊','Dashboard'],
+    ['commissions','🎨','Commissions'],
+    ['orders','📦','Orders'],
+    ['queue','📋','Queue'],
+    ['users','👥','Users'],
+    ['gallery','🖼','Gallery'],
+    ['videos','🎬','Videos'],
+    ['freebies','📁','Freebies'],
+    ['reviews','⭐','Reviews'],
+    ['channels_admin','💬','Channels'],
+    ['bans','🔨','Bans / IP'],
+    ['profanity','🚫','Profanity'],
+    ...(isOwner?[['staffcodes','🔑','Staff Codes'],['ranks','🏷','Ranks']]:[]),
+    ['settings','⚙','Settings'],
+  ];
+  sb.innerHTML=`<div class="asidebartitle">${isOwner?`<div class="ownerbadge">👑 ${CU.rank}</div><div style="font-size:0.6rem;letter-spacing:0.2em;color:var(--muted);">OWNER PANEL</div>`:'⚙ ADMIN PANEL'}</div>`+
+    items.map(([tab,icon,label])=>`<div class="ani" onclick="switchATab('${tab}',this)"><span>${icon}</span>${label}</div>`).join('');
+}
+function switchATab(tab,el){
+  document.querySelectorAll('.ani').forEach(i=>i.classList.remove('act'));
+  if(el)el.classList.add('act');renderATab(tab);
+}
+function renderATab(tab){
+  const c=document.getElementById('admin-content');if(!c)return;
+  const H=(t)=>`<div class="eyebrow" style="margin-bottom:0.45rem;">ADMIN</div><h2 class="sectitle">${t}</h2><div class="divider"></div>`;
+  const isOwner=CU&&CU.isOwner;
+  switch(tab){
+    case 'dashboard': aTabDash(c,H);break;
+    case 'commissions': aTabComms(c,H);break;
+    case 'orders': aTabOrders(c,H);break;
+    case 'queue': aTabQueue(c,H);break;
+    case 'users': aTabUsers(c,H);break;
+    case 'gallery': aTabGallery(c,H);break;
+    case 'videos': aTabVideos(c,H);break;
+    case 'freebies': aTabFreebies(c,H);break;
+    case 'reviews': aTabReviews(c,H);break;
+    case 'channels_admin': aTabChannels(c,H);break;
+    case 'bans': aTabBans(c,H);break;
+    case 'profanity': aTabProfanity(c,H);break;
+    case 'staffcodes': if(isOwner)aTabCodes(c,H);break;
+    case 'ranks': if(isOwner)aTabRanks(c,H);break;
+    case 'settings': aTabSettings(c,H);break;
+  }
+}
+
+function aTabDash(c,H){
+  const users=gd('va_users',[]);const orders=gd('va_orders',[]);const q=gd('va_queue',[]);
+  const reviews=gd('va_reviews',[]);const bans=gd('va_bans',[]);const comms=gd('va_comms',[]);
+  c.innerHTML=H('Dashboard')+`
+    <div class="astats">
+      <div class="astat"><div class="astatnum" style="color:var(--cyan)">${users.length}</div><div class="astatlabel">Users</div></div>
+      <div class="astat"><div class="astatnum" style="color:var(--red)">${orders.length}</div><div class="astatlabel">Orders</div></div>
+      <div class="astat"><div class="astatnum">${q.filter(x=>x.status==='pending').length}</div><div class="astatlabel">Pending</div></div>
+      <div class="astat"><div class="astatnum" style="color:var(--gold)">${reviews.filter(r=>r.approved).length}</div><div class="astatlabel">Reviews</div></div>
+      <div class="astat"><div class="astatnum">${bans.length}</div><div class="astatlabel">Bans</div></div>
+      <div class="astat"><div class="astatnum">${comms.length}</div><div class="astatlabel">Comm Types</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;">
+      <div><div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;letter-spacing:0.1em;">RECENT ORDERS</div>
+        ${orders.slice(-5).reverse().map(o=>`<div style="padding:0.6rem;background:var(--card);border:1px solid var(--border);margin-bottom:0.38rem;display:flex;justify-content:space-between;font-size:0.8rem;">
+          <div><div style="font-weight:600">${o.user}</div><div style="color:var(--muted);font-size:0.72rem">${o.type} — ${o.source||'Web'}</div></div>
+          <div style="text-align:right;"><div style="font-family:var(--font-mono);color:var(--cyan)">฿${o.price||'TBD'}</div><div style="font-size:0.68rem;color:var(--muted)">${o.status}</div></div>
+        </div>`).join('')}
+      </div>
+      <div><div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;letter-spacing:0.1em;">QUEUE</div>
+        ${q.slice(0,6).map((item,i)=>`<div style="padding:0.48rem 0.7rem;background:var(--card);border:1px solid var(--border);margin-bottom:0.35rem;display:flex;gap:0.7rem;align-items:center;font-size:0.8rem;">
+          <span style="font-family:var(--font-mono);color:var(--muted)">#${i+1}</span><span style="flex:1">${item.user}</span>
+          <span class="qstat qs-${item.status}" style="font-size:0.62rem">${item.status}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function aTabComms(c,H){
+  const comms=gd('va_comms',[]);
+  c.innerHTML=H('Commission Types')+`<button class="bprimary" style="margin-bottom:1.2rem;" onclick="openAddCM()">+ ADD NEW TYPE</button>
+    <table class="dtable"><thead><tr><th>Title</th><th>Category</th><th>Price</th><th>Status</th><th>Delivery</th><th>Actions</th></tr></thead>
+    <tbody>${comms.map(cm=>`<tr>
+      <td>${cm.title}</td><td>${cm.category}</td>
+      <td style="font-family:var(--font-mono)">฿${Number(cm.price).toLocaleString()}</td>
+      <td><span class="cbadge ${cm.status}" style="margin:0">${cm.status}</span></td>
+      <td style="font-size:0.72rem;color:var(--muted)">${cm.delivery}</td>
+      <td style="display:flex;gap:0.25rem;flex-wrap:wrap;">
+        <button class="ab info" onclick="editCM('${cm.id}')">EDIT</button>
+        <button class="ab ok" onclick="toggleCM('${cm.id}')">TOGGLE</button>
+        <button class="ab danger" onclick="delCM('${cm.id}')">DEL</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function openAddCM(){
+  editCMId=null;document.getElementById('cm-title').textContent='Add Commission';
+  ['cm-t','cm-cat','cm-desc','cm-price','cm-tags','cm-del'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cm-status').value='open';
+  document.getElementById('cm-cat-dl').innerHTML=[...new Set(gd('va_comms',[]).map(c=>c.category))].map(c=>`<option value="${c}">`).join('');
+  om('m-comm');
+}
+function editCM(id){
+  const cm=gd('va_comms',[]).find(x=>x.id===id);if(!cm)return;
+  editCMId=id;document.getElementById('cm-title').textContent='Edit Commission';
+  document.getElementById('cm-t').value=cm.title;document.getElementById('cm-cat').value=cm.category;
+  document.getElementById('cm-desc').value=cm.desc;document.getElementById('cm-price').value=cm.price;
+  document.getElementById('cm-status').value=cm.status;document.getElementById('cm-tags').value=cm.tags.join(', ');
+  document.getElementById('cm-del').value=cm.delivery;om('m-comm');
+}
+function saveCM(){
+  const title=document.getElementById('cm-t').value.trim();
+  const cat=document.getElementById('cm-cat').value.trim();
+  const desc=document.getElementById('cm-desc').value.trim();
+  const price=document.getElementById('cm-price').value;
+  if(!title||!cat||!desc||!price){toast('Fill all required fields.');return;}
+  const status=document.getElementById('cm-status').value;
+  const tags=document.getElementById('cm-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const delivery=document.getElementById('cm-del').value.trim();
+  const comms=gd('va_comms',[]);
+  if(editCMId){const idx=comms.findIndex(c=>c.id===editCMId);if(idx>-1)comms[idx]={...comms[idx],title,category:cat,desc,price:Number(price),status,tags,delivery};}
+  else comms.push({id:uid(),title,category:cat,desc,price:Number(price),status,tags,delivery});
+  sd('va_comms',comms);renderComms();renderATab('commissions');cm('m-comm');toast('Saved!');
+}
+function toggleCM(id){const comms=gd('va_comms',[]);const item=comms.find(x=>x.id===id);if(!item)return;const s=['open','closed','waitlist'];item.status=s[(s.indexOf(item.status)+1)%s.length];sd('va_comms',comms);renderComms();renderATab('commissions');}
+function delCM(id){if(!confirm('Delete?'))return;let c=gd('va_comms',[]);c=c.filter(x=>x.id!==id);sd('va_comms',c);renderComms();renderATab('commissions');}
+
+function aTabOrders(c,H){
+  const orders=gd('va_orders',[]);const comms=gd('va_comms',[]);
+  c.innerHTML=H('Orders')+`
+    <div style="display:flex;gap:1rem;margin-bottom:1.1rem;flex-wrap:wrap;align-items:center;">
+      <button class="bprimary" onclick="openAOrder()">+ ADD ORDER</button>
+      <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);">Total: ${orders.length}</span>
+    </div>
+    <table class="dtable"><thead><tr><th>Client</th><th>Type</th><th>Source</th><th>Date</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${orders.map(o=>`<tr>
+      <td><div style="font-weight:600">${o.user}</div><div style="font-size:0.7rem;color:var(--muted)">${(o.desc||'').substr(0,38)}...</div></td>
+      <td>${o.type}</td>
+      <td style="font-size:0.72rem;color:var(--muted)">${o.source||'Web'}</td>
+      <td style="font-family:var(--font-mono);font-size:0.72rem">${o.date}</td>
+      <td style="font-family:var(--font-mono)">฿${o.price||'-'}</td>
+      <td><span style="font-size:0.7rem;padding:0.18rem 0.48rem;border:1px solid var(--border);font-family:var(--font-mono)">${o.status}</span></td>
+      <td style="display:flex;gap:0.25rem;flex-wrap:wrap;">
+        <button class="ab info" onclick="editAOrder('${o.id}')">EDIT</button>
+        <button class="ab ok" onclick="setOrdStatus('${o.id}','completed')">DONE</button>
+        <button class="ab danger" onclick="delOrd('${o.id}')">DEL</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+  const dl=document.getElementById('ao-type-dl');if(dl)dl.innerHTML=comms.map(c=>`<option value="${c.title}">`).join('');
+}
+function openAOrder(){
+  editOrdId=null;document.getElementById('ao-title').textContent='Add Order';
+  ['ao-user','ao-type','ao-desc','ao-price','ao-src','ao-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ao-status').value='pending';
+  document.getElementById('e-ao').style.display='none';
+  const comms=gd('va_comms',[]);
+  const dl=document.getElementById('ao-type-dl');if(dl)dl.innerHTML=comms.map(c=>`<option value="${c.title}">`).join('');
+  om('m-aorder');
+}
+function editAOrder(id){
+  const o=gd('va_orders',[]).find(x=>x.id===id);if(!o)return;
+  editOrdId=id;document.getElementById('ao-title').textContent='Edit Order';
+  document.getElementById('ao-user').value=o.user;document.getElementById('ao-type').value=o.type;
+  document.getElementById('ao-desc').value=o.desc||'';document.getElementById('ao-price').value=o.price||'';
+  document.getElementById('ao-status').value=o.status;document.getElementById('ao-src').value=o.source||'';
+  document.getElementById('ao-notes').value=o.notes||'';
+  document.getElementById('e-ao').style.display='none';om('m-aorder');
+}
+function saveAOrder(){
+  const user=document.getElementById('ao-user').value.trim();
+  const type=document.getElementById('ao-type').value.trim();
+  if(!user||!type){serr('e-ao','Client and type required.');return;}
+  const o={user,type,desc:document.getElementById('ao-desc').value.trim(),price:Number(document.getElementById('ao-price').value)||0,status:document.getElementById('ao-status').value,source:document.getElementById('ao-src').value.trim()||'Manual (Admin)',notes:document.getElementById('ao-notes').value.trim(),date:fmtDate()};
+  const orders=gd('va_orders',[]);const q=gd('va_queue',[]);
+  if(editOrdId){const idx=orders.findIndex(x=>x.id===editOrdId);if(idx>-1)orders[idx]={...orders[idx],...o};}
+  else{o.id=uid();orders.push(o);if(o.status==='pending'||o.status==='in_progress'){q.push({id:uid(),user:o.user,type:o.type,status:o.status==='in_progress'?'inprogress':'pending',date:o.date});sd('va_queue',q);renderQueue();}}
+  sd('va_orders',orders);renderATab('orders');cm('m-aorder');toast('Order saved!');
+}
+function setOrdStatus(id,status){const orders=gd('va_orders',[]);const o=orders.find(x=>x.id===id);if(o)o.status=status;sd('va_orders',orders);renderATab('orders');}
+function delOrd(id){if(!confirm('Delete order?'))return;let o=gd('va_orders',[]);o=o.filter(x=>x.id!==id);sd('va_orders',o);renderATab('orders');}
+
+function aTabQueue(c,H){
+  const q=gd('va_queue',[]);
+  c.innerHTML=H('Queue')+`<table class="dtable"><thead><tr><th>#</th><th>User</th><th>Type</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${q.map((item,i)=>`<tr>
+      <td style="font-family:var(--font-mono)">#${i+1}</td><td>${item.user}</td><td>${item.type}</td><td>${item.date}</td>
+      <td><span class="qstat qs-${item.status}">${item.status}</span></td>
+      <td style="display:flex;gap:0.25rem;flex-wrap:wrap;">
+        <button class="ab ok" onclick="setQS('${item.id}','inprogress')">IN PROG</button>
+        <button class="ab info" onclick="setQS('${item.id}','done')">DONE</button>
+        <button class="ab danger" onclick="delQ('${item.id}')">REMOVE</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function setQS(id,status){const q=gd('va_queue',[]);const item=q.find(x=>x.id===id);if(item)item.status=status;sd('va_queue',q);renderQueue();renderATab('queue');}
+function delQ(id){let q=gd('va_queue',[]);q=q.filter(x=>x.id!==id);sd('va_queue',q);renderQueue();renderATab('queue');}
+
+function aTabUsers(c,H){
+  const users=gd('va_users',[]);
+  c.innerHTML=H('Users')+`<table class="dtable"><thead><tr><th>Username</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${users.map(u=>`<tr>
+      <td>${u.username}</td><td>${u.email}</td><td style="font-family:var(--font-mono);font-size:0.72rem">${u.joinDate||'-'}</td>
+      <td><span style="color:${u.banned?'var(--red)':'var(--cyan)'};font-family:var(--font-mono);font-size:0.72rem">${u.banned?'BANNED':'ACTIVE'}</span></td>
+      <td style="display:flex;gap:0.25rem;flex-wrap:wrap;">
+        <button class="ab danger" onclick="banU('${u.id}')">BAN</button>
+        <button class="ab ok" onclick="unbanU('${u.id}')">UNBAN</button>
+        <button class="ab" style="color:var(--muted);border:1px solid var(--border)" onclick="delU('${u.id}')">DEL</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function banU(uid){const r=prompt('Ban reason:');const users=gd('va_users',[]);const u=users.find(x=>x.id===uid);if(!u)return;u.banned=true;u.banReason=r||'Violation';sd('va_users',users);renderATab('users');toast('Banned.');}
+function unbanU(uid){const users=gd('va_users',[]);const u=users.find(x=>x.id===uid);if(u){u.banned=false;u.banReason='';}sd('va_users',users);renderATab('users');toast('Unbanned.');}
+function delU(uid){if(!confirm('Delete user?'))return;let users=gd('va_users',[]);users=users.filter(u=>u.id!==uid);sd('va_users',users);renderATab('users');}
+
+function aTabGallery(c,H){
+  const gallery=gd('va_gallery',[]);
+  c.innerHTML=H('Gallery')+`
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;margin-bottom:1.2rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">ADD IMAGE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.7rem;">
+        <input class="fi" id="gl-title" placeholder="Title">
+        <input class="fi" id="gl-type" placeholder="Type (Full Body, Icon, etc)">
+      </div>
+      <div class="uzone"><input type="file" accept="image/*" onchange="handleGLUp(event)"><div class="utext">📁 Click or drag image file</div><div class="usub">JPG, PNG, GIF, WEBP, etc</div></div>
+      <div id="gl-prev" style="margin-top:0.6rem;"></div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin:0.5rem 0;">OR enter URL:</div>
+      <div style="display:flex;gap:0.7rem;"><input class="fi" id="gl-url" placeholder="Image URL (if no file upload)"><button class="bprimary" onclick="addGLItem()">ADD</button></div>
+    </div>
+    <table class="dtable"><thead><tr><th>Preview</th><th>Title</th><th>Type</th><th>Actions</th></tr></thead>
+    <tbody>${gallery.map(g=>`<tr>
+      <td>${(g.data||g.url)?`<img src="${g.data||g.url}" style="width:46px;height:46px;object-fit:cover;border:1px solid var(--border);">`:''}</td>
+      <td>${g.title}</td><td>${g.type}</td>
+      <td><button class="ab danger" onclick="delGL('${g.id}')">DEL</button></td>
+    </tr>`).join('')}</tbody></table>`;
+  _glData='';
+}
+function handleGLUp(e){
+  const file=e.target.files[0];if(!file)return;
+  readFileAsDataURL(file,d=>{
+    _glData=d;
+    const prev=document.getElementById('gl-prev');
+    if(prev)prev.innerHTML=`<img src="${d}" style="max-height:110px;object-fit:contain;border:1px solid var(--border);">`;
+  });
+}
+function addGLItem(){
+  const title=document.getElementById('gl-title').value.trim();
+  const type=document.getElementById('gl-type').value.trim();
+  const url=document.getElementById('gl-url').value.trim();
+  if(!title){toast('Enter title.');return;}
+  const gallery=gd('va_gallery',[]);
+  gallery.push({id:uid(),title,type,url,data:_glData,ph:!(_glData||url)});
+  sd('va_gallery',gallery);_glData='';renderGallery();renderATab('gallery');toast('Image added!');
+}
+function delGL(id){let g=gd('va_gallery',[]);g=g.filter(x=>x.id!==id);sd('va_gallery',g);renderGallery();renderATab('gallery');}
+
+function aTabVideos(c,H){
+  const videos=gd('va_videos',[]);
+  c.innerHTML=H('Videos')+`
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;margin-bottom:1.2rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">UPLOAD VIDEO</div>
+      <div class="fg"><label class="fl">Title</label><input class="fi" id="vd-title"></div>
+      <div class="uzone">
+        <input type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/*" onchange="handleVDUp(event)">
+        <div class="utext">🎬 Click or drag video file</div>
+        <div class="usub">MP4, WebM, MOV, AVI, MKV — all accepted</div>
+      </div>
+      <div id="vd-prev" style="margin-top:0.6rem;"></div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin:0.5rem 0;">OR YouTube / external URL:</div>
+      <div style="display:flex;gap:0.7rem;"><input class="fi" id="vd-url" placeholder="Video URL"><button class="bprimary" onclick="addVideo()">ADD VIDEO</button></div>
+    </div>
+    <table class="dtable"><thead><tr><th>Preview</th><th>Title</th><th>Date</th><th>Views</th><th>Actions</th></tr></thead>
+    <tbody>${videos.map(v=>`<tr>
+      <td>${(v.data||v.url)?`<video src="${v.data||v.url}" style="width:80px;height:50px;object-fit:cover;background:var(--surface);"></video>`:''}</td>
+      <td>${v.title}</td><td>${v.date}</td><td style="font-family:var(--font-mono)">${v.views}</td>
+      <td><button class="ab danger" onclick="delVD('${v.id}')">DEL</button></td>
+    </tr>`).join('')}</tbody></table>`;
+  _vdData='';
+}
+function handleVDUp(e){
+  const file=e.target.files[0];if(!file)return;
+  toast('Loading video... (large files may take a moment)');
+  readFileAsDataURL(file,d=>{
+    _vdData=d;
+    const prev=document.getElementById('vd-prev');
+    if(prev)prev.innerHTML=`<video src="${d}" controls style="max-height:130px;border:1px solid var(--border);"></video>`;
+    toast('Video loaded! Click ADD VIDEO.');
+  });
+}
+function addVideo(){
+  const title=document.getElementById('vd-title').value.trim();
+  const url=document.getElementById('vd-url').value.trim();
+  if(!title){toast('Enter title.');return;}
+  const videos=gd('va_videos',[]);
+  videos.push({id:uid(),title,url,data:_vdData,date:fmtDate(),views:0});
+  sd('va_videos',videos);_vdData='';renderVideos();renderATab('videos');toast('Video added!');
+}
+function delVD(id){let v=gd('va_videos',[]);v=v.filter(x=>x.id!==id);sd('va_videos',v);renderVideos();renderATab('videos');}
+
+function aTabFreebies(c,H){
+  const freebies=gd('va_freebies',[]);
+  c.innerHTML=H('Freebies')+`
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;margin-bottom:1.2rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">ADD FREEBIE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.85rem;margin-bottom:0.7rem;">
+        <input class="fi" id="fb-name" placeholder="File Name">
+        <input class="fi" id="fb-icon" placeholder="Icon emoji 🎨">
+        <input class="fi" id="fb-size" placeholder="Size e.g. 2.4 MB">
+      </div>
+      <div class="uzone">
+        <input type="file" onchange="handleFBUp(event)">
+        <div class="utext">📁 Upload any file type</div>
+        <div class="usub">Images, ZIPs, PDFs, brushes, textures — all accepted</div>
+      </div>
+      <div id="fb-prev" style="margin-top:0.5rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--cyan);"></div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin:0.5rem 0;">OR external URL:</div>
+      <div style="display:flex;gap:0.7rem;"><input class="fi" id="fb-url" placeholder="Download URL"><button class="bprimary" onclick="addFB()">ADD FILE</button></div>
+    </div>
+    <table class="dtable"><thead><tr><th>Icon</th><th>Name</th><th>Size</th><th>Type</th><th>Actions</th></tr></thead>
+    <tbody>${freebies.map(f=>`<tr>
+      <td style="font-size:1.4rem">${f.icon}</td><td>${f.name}</td>
+      <td style="font-family:var(--font-mono);font-size:0.72rem">${f.size}</td>
+      <td style="font-size:0.72rem;color:var(--muted)">${f.data?'Uploaded':'URL/None'}</td>
+      <td><button class="ab danger" onclick="delFB('${f.id}')">DEL</button></td>
+    </tr>`).join('')}</tbody></table>`;
+  _fbData='';_fbName='';_fbSize='';
+}
+function handleFBUp(e){
+  const file=e.target.files[0];if(!file)return;
+  _fbName=file.name;_fbSize=(file.size/1024/1024).toFixed(2)+' MB';
+  readFileAsDataURL(file,d=>{
+    _fbData=d;
+    const prev=document.getElementById('fb-prev');
+    if(prev)prev.textContent='✓ Loaded: '+_fbName+' ('+_fbSize+')';
+    if(!document.getElementById('fb-name').value)document.getElementById('fb-name').value=_fbName;
+    if(!document.getElementById('fb-size').value)document.getElementById('fb-size').value=_fbSize;
+  });
+}
+function addFB(){
+  const name=document.getElementById('fb-name').value.trim();
+  const icon=document.getElementById('fb-icon').value.trim()||'📁';
+  const size=document.getElementById('fb-size').value.trim()||_fbSize||'?';
+  const url=document.getElementById('fb-url').value.trim();
+  if(!name){toast('Enter file name.');return;}
+  const freebies=gd('va_freebies',[]);
+  freebies.push({id:uid(),name,icon,size,url,data:_fbData});
+  sd('va_freebies',freebies);_fbData='';_fbName='';_fbSize='';
+  renderFreebies();renderATab('freebies');toast('File added!');
+}
+function delFB(id){let f=gd('va_freebies',[]);f=f.filter(x=>x.id!==id);sd('va_freebies',f);renderFreebies();renderATab('freebies');}
+
+function aTabReviews(c,H){
+  const reviews=gd('va_reviews',[]);
+  c.innerHTML=H('Reviews')+`<table class="dtable"><thead><tr><th>User</th><th>Rating</th><th>Type</th><th>Text</th><th>Approved</th><th>Actions</th></tr></thead>
+    <tbody>${reviews.map(r=>`<tr>
+      <td>${r.user}</td><td style="color:var(--gold)">${'★'.repeat(r.rating)}</td><td>${r.type}</td>
+      <td style="font-size:0.75rem;max-width:200px">${r.text.substr(0,70)}...</td>
+      <td><span style="color:${r.approved?'var(--cyan)':'var(--red)'};">${r.approved?'YES':'NO'}</span></td>
+      <td style="display:flex;gap:0.25rem;">
+        <button class="ab ok" onclick="toggleRV('${r.id}')">TOGGLE</button>
+        <button class="ab danger" onclick="delRV('${r.id}')">DEL</button>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function toggleRV(id){const r=gd('va_reviews',[]);const item=r.find(x=>x.id===id);if(item)item.approved=!item.approved;sd('va_reviews',r);renderReviews();renderATab('reviews');}
+function delRV(id){let r=gd('va_reviews',[]);r=r.filter(x=>x.id!==id);sd('va_reviews',r);renderReviews();renderATab('reviews');}
+
+function aTabChannels(c,H){
+  const chs=gd('va_channels',[]);
+  c.innerHTML=H('Channel Management')+`
+    <div style="display:flex;gap:0.85rem;margin-bottom:1.2rem;">
+      <button class="bprimary" onclick="addChModal('text')">+ TEXT CHANNEL</button>
+      <button class="boutline" onclick="addChModal('voice')">+ VOICE CHANNEL</button>
+    </div>
+    <table class="dtable"><thead><tr><th>Name</th><th>Type</th><th>Messages</th><th>Actions</th></tr></thead>
+    <tbody>${chs.map(ch=>`<tr>
+      <td>${ch.type==='voice'?'🔊 ':''+'# '}${ch.name}</td><td>${ch.type}</td>
+      <td style="font-family:var(--font-mono)">${(ch.msgs||[]).length}</td>
+      <td><button class="ab danger" onclick="delCh('${ch.id}')">DEL</button></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+function aTabBans(c,H){
+  const bans=gd('va_bans',[]);
+  c.innerHTML=H('Bans / IP Management')+`
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;margin-bottom:1.2rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">BAN USER / IP / DEVICE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.85rem;margin-bottom:0.7rem;">
+        <input class="fi" id="ban-target" placeholder="Username / IP / Device ID">
+        <input class="fi" id="ban-reason" placeholder="Reason">
+        <select class="fsel" id="ban-type"><option value="username">Username</option><option value="ip">IP Address</option><option value="device">Device ID</option></select>
+      </div>
+      <button class="bprimary" style="background:linear-gradient(135deg,var(--red),#8b0000);" onclick="addBan()">BAN</button>
+    </div>
+    <table class="dtable"><thead><tr><th>Target</th><th>Type</th><th>Reason</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>${bans.map(b=>`<tr>
+      <td style="font-family:var(--font-mono);font-size:0.75rem">${b.target}</td><td>${b.type}</td><td>${b.reason||'-'}</td><td>${b.date||'-'}</td>
+      <td><button class="ab ok" onclick="removeBan('${b.id}')">UNBAN</button></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function addBan(){
+  const target=document.getElementById('ban-target').value.trim();
+  const reason=document.getElementById('ban-reason').value.trim();
+  const type=document.getElementById('ban-type').value;
+  if(!target){toast('Enter target.');return;}
+  const bans=gd('va_bans',[]);
+  const entry={id:uid(),target,reason,type,date:fmtDate()};
+  if(type==='username')entry.username=target;else if(type==='ip')entry.ip=target;else if(type==='device')entry.deviceId=target;
+  bans.push(entry);sd('va_bans',bans);
+  if(type==='username'){const users=gd('va_users',[]);const u=users.find(x=>x.username===target);if(u){u.banned=true;u.banReason=reason;sd('va_users',users);}}
+  renderATab('bans');toast('Banned: '+target);
+}
+function removeBan(id){let b=gd('va_bans',[]);b=b.filter(x=>x.id!==id);sd('va_bans',b);renderATab('bans');toast('Ban removed.');}
+
+function aTabProfanity(c,H){
+  const list=gd('va_profanity',[]);
+  c.innerHTML=H('Profanity Filter')+`
+    <div style="display:flex;gap:0.85rem;margin-bottom:1.4rem;">
+      <input class="fi" id="pf-new" placeholder="Add blocked word" style="max-width:300px">
+      <button class="bprimary" onclick="addPF()">ADD WORD</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+      ${list.map(w=>`<div style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);padding:0.28rem 0.72rem;display:flex;align-items:center;gap:0.45rem;">
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--red)">${w}</span>
+        <button style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;" onclick="delPF('${w}')">✕</button>
+      </div>`).join('')}
+    </div>`;
+}
+function addPF(){const w=document.getElementById('pf-new').value.trim().toLowerCase();if(!w)return;let l=gd('va_profanity',[]);if(!l.includes(w)){l.push(w);sd('va_profanity',l);}renderATab('profanity');document.getElementById('pf-new').value='';}
+function delPF(w){let l=gd('va_profanity',[]);l=l.filter(x=>x!==w);sd('va_profanity',l);renderATab('profanity');}
+
+// ============================================================
+// OWNER: STAFF CODES
+// ============================================================
+function aTabCodes(c,H){
+  const codes=gd('va_codes',[]);
+  c.innerHTML=H('Staff Codes Manager')+`
+    <div class="ownerbadge">👑 Owner Only Feature</div>
+    <div style="background:var(--card);border:1px solid rgba(255,215,0,0.2);padding:1.2rem;margin-bottom:1.4rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">ADD NEW STAFF CODE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.7rem;">
+        <input class="fi" id="sc-code" placeholder="Staff access code (secret)">
+        <input class="fi" id="sc-rank" placeholder="Rank / Title (e.g. Artist)">
+      </div>
+      <button class="bgold" onclick="addSCode()">+ ADD CODE</button>
+    </div>
+    <table class="dtable"><thead><tr><th>Code (hidden)</th><th>Rank</th><th>Type</th><th>Actions</th></tr></thead>
+    <tbody>${codes.map(sc=>`<tr>
+      <td style="font-family:var(--font-mono);font-size:0.75rem">${sc.isOwner?'[OWNER — protected]':'••••••••'}</td>
+      <td>${sc.rank}</td>
+      <td><span style="font-size:0.7rem;color:${sc.isOwner?'var(--gold)':'var(--cyan)'};">${sc.isOwner?'👑 OWNER':'⚙ STAFF'}</span></td>
+      <td>${sc.isOwner?`<span style="color:var(--muted);font-size:0.72rem">Protected</span>`:`<button class="ab danger" onclick="revokeSCode('${sc.id}')">REVOKE</button>`}</td>
+    </tr>`).join('')}</tbody></table>`;
+}
+function addSCode(){
+  const code=document.getElementById('sc-code').value.trim();
+  const rank=document.getElementById('sc-rank').value.trim();
+  if(!code||!rank){toast('Enter code and rank.');return;}
+  const codes=gd('va_codes',[]);
+  if(codes.find(c=>c.code===code)){toast('Code already exists.');return;}
+  codes.push({id:uid(),code,rank,isOwner:false});sd('va_codes',codes);
+  renderATab('staffcodes');toast('Staff code added: '+rank);
+}
+function revokeSCode(id){
+  const codes=gd('va_codes',[]);const sc=codes.find(x=>x.id===id);
+  if(sc&&sc.isOwner){toast('Cannot revoke Owner code.');return;}
+  if(!confirm('Revoke this staff code? The staff member will lose access.'))return;
+  const newCodes=codes.filter(x=>x.id!==id);sd('va_codes',newCodes);
+  renderATab('staffcodes');toast('Code revoked.');
+}
+
+// ============================================================
+// OWNER: RANKS
+// ============================================================
+function aTabRanks(c,H){
+  const codes=gd('va_codes',[]);
+  c.innerHTML=H('Rank Management')+`
+    <div class="ownerbadge">👑 Owner Only Feature</div>
+    <p style="color:var(--ghost);font-size:0.85rem;margin-bottom:1.5rem;line-height:1.7;">
+      Ranks are tied to Staff Codes. Create a new rank by adding a code below.<br>
+      Only the Owner (${OWNER_RANK}) can add/remove staff codes.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
+      <div style="background:rgba(255,215,0,0.1);border:1px solid var(--gold);padding:0.7rem 1.4rem;">
+        <div style="color:var(--gold);font-family:var(--font-mono);font-size:0.65rem;margin-bottom:0.25rem;">OWNER</div>
+        <div style="font-weight:600;">${OWNER_RANK}</div>
+        <div style="font-size:0.72rem;color:var(--muted);">Full system access</div>
+      </div>
+      ${codes.filter(sc=>!sc.isOwner).map(sc=>`<div style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);padding:0.7rem 1.4rem;">
+        <div style="color:var(--red);font-family:var(--font-mono);font-size:0.65rem;margin-bottom:0.25rem;">STAFF</div>
+        <div style="font-weight:600;">${sc.rank}</div>
+        <div style="font-size:0.72rem;color:var(--muted);">Admin panel access</div>
+      </div>`).join('')}
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;">
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--muted);margin-bottom:0.7rem;">CREATE NEW RANK</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.7rem;">
+        <input class="fi" id="rk-code" placeholder="Access code for this rank">
+        <input class="fi" id="rk-name" placeholder="Rank name (e.g. Colorist)">
+      </div>
+      <button class="bgold" onclick="createRank()">CREATE RANK</button>
+    </div>`;
+}
+function createRank(){
+  const code=document.getElementById('rk-code').value.trim();
+  const name=document.getElementById('rk-name').value.trim();
+  if(!code||!name){toast('Enter code and rank name.');return;}
+  const codes=gd('va_codes',[]);if(codes.find(c=>c.code===code)){toast('Code already exists.');return;}
+  codes.push({id:uid(),code,rank:name,isOwner:false});sd('va_codes',codes);
+  renderATab('ranks');toast('Rank "'+name+'" created!');
+}
+
+function aTabSettings(c,H){
+  c.innerHTML=H('Site Settings')+`
+    <div style="max-width:600px;">
+      <div class="fg"><label class="fl">Commission Status Banner Text</label>
+        <input class="fi" value="OPEN — Accepting orders for Dark Fantasy & Character Design"></div>
+      <div class="fg"><label class="fl">Open Slots (display)</label>
+        <input class="fi" id="s-slots" type="number" value="${document.getElementById('hero-slots').textContent}" oninput="document.getElementById('hero-slots').textContent=this.value"></div>
+      <div class="fg"><label class="fl">Artist's Social / Contact</label>
+        <input class="fi" placeholder="@handle or contact info"></div>
+      <div class="fg"><label class="fl">Welcome Message (Global Chat)</label>
+        <input class="fi" placeholder="Customize the bot welcome message"></div>
+      <button class="bprimary" onclick="toast('Settings applied!')">APPLY SETTINGS</button>
+    </div>`;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function readFileAsDataURL(file,cb){
+  const reader=new FileReader();
+  reader.onload=e=>cb(e.target.result);
+  reader.readAsDataURL(file);
+}
+function om(id){document.getElementById(id).classList.add('open');}
+function cm(id){document.getElementById(id).classList.remove('open');}
+function serr(id,msg){const el=document.getElementById(id);if(el){el.textContent=msg;el.style.display='block';}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.className='show';setTimeout(()=>t.className='',2500);}
+document.querySelectorAll('.moverlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+
+// ============================================================
+// THEMES
+// ============================================================
+function setTheme(t){
+  document.querySelectorAll('.tswb').forEach(b=>b.classList.remove('act'));
+  document.querySelector(`[data-t="${t}"]`).classList.add('act');
+  const bh=document.getElementById('bh-canvas'),stars=document.getElementById('stars-canvas'),root=document.documentElement;
+  const setV=(r,g,b2,cy,go)=>{root.style.setProperty('--red',r);root.style.setProperty('--red2',g);root.style.setProperty('--blue2',b2);root.style.setProperty('--cyan',cy);root.style.setProperty('--gold',go||'#ffd700');};
+  if(t==='bw'){setV('#fff','#ccc','#888','#fff','#fff');bh.style.opacity='0';stars.style.opacity='0.2';}
+  else if(t==='rb'){setV('#e53935','#ff1744','#2979ff','#00e5ff');bh.style.opacity='0.6';stars.style.opacity='0.5';}
+  else if(t==='star'){setV('#9c27b0','#e040fb','#7c4dff','#e040fb','#ce93d8');bh.style.opacity='0.2';stars.style.opacity='1';}
+  else{setV('#e53935','#ff1744','#2979ff','#00e5ff');bh.style.opacity='1';stars.style.opacity='0.6';}
+}
+
+// ============================================================
+// BLACKHOLE + STARS
+// ============================================================
+function initBH(){
+  const cv=document.getElementById('bh-canvas'),ctx=cv.getContext('2d');let W,H,t=0;
+  const resize=()=>{W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;};
+  window.addEventListener('resize',resize);resize();
+  (function draw(){
+    ctx.fillStyle='rgba(0,0,0,0.04)';ctx.fillRect(0,0,W,H);
+    const cx=W*0.65,cy=H*0.4,r=Math.min(W,H)*0.12;
+    for(let i=0;i<3;i++){const dr=r*(2.5+i*0.8),a=0.03-i*0.008;const g=ctx.createRadialGradient(cx,cy,dr*0.7,cx,cy,dr*1.3);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(0.3,`rgba(229,${50+i*20},${10+i*5},${a})`);g.addColorStop(0.5,`rgba(255,${100+i*30},0,${a*2})`);g.addColorStop(0.7,`rgba(41,121,255,${a})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.save();ctx.translate(cx,cy);ctx.scale(1,0.25);ctx.translate(-cx,-cy);ctx.beginPath();ctx.arc(cx,cy,dr,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.restore();}
+    for(let s=0;s<8;s++){const ang=(s/8)*Math.PI*2+t*0.001,len=r*4;ctx.save();ctx.strokeStyle=`rgba(229,57,53,${0.04+0.02*Math.sin(t*0.002+s)})`;ctx.lineWidth=1.5;ctx.beginPath();for(let p=0;p<60;p++){const pr=p/60,spiral=ang+pr*Math.PI*3,dist=r*1.2+(1-pr)*len;ctx.lineTo(cx+Math.cos(spiral)*dist*(1+0.3*Math.sin(t*0.001+s)),cy+Math.sin(spiral)*dist*0.3);}ctx.stroke();ctx.restore();}
+    const eg=ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.05);eg.addColorStop(0,'rgba(0,0,0,1)');eg.addColorStop(0.85,'rgba(0,0,0,1)');eg.addColorStop(0.95,'rgba(20,0,40,0.8)');eg.addColorStop(1,'rgba(0,0,0,0)');ctx.beginPath();ctx.arc(cx,cy,r*1.05,0,Math.PI*2);ctx.fillStyle=eg;ctx.fill();
+    const rg=ctx.createRadialGradient(cx,cy,r*0.95,cx,cy,r*1.08);rg.addColorStop(0,'rgba(255,200,100,0)');rg.addColorStop(0.3,`rgba(255,200,100,${0.15+0.05*Math.sin(t*0.003)})`);rg.addColorStop(1,'rgba(255,100,0,0)');ctx.beginPath();ctx.arc(cx,cy,r*1.01,0,Math.PI*2);ctx.strokeStyle=rg;ctx.lineWidth=r*0.15;ctx.stroke();
+    ctx.save();const ja=0.04+0.02*Math.sin(t*0.004),jg=ctx.createLinearGradient(cx,cy-r,cx,cy-r*5);jg.addColorStop(0,`rgba(200,150,255,${ja*3})`);jg.addColorStop(0.5,`rgba(100,100,255,${ja})`);jg.addColorStop(1,'rgba(0,0,100,0)');ctx.beginPath();ctx.moveTo(cx-r*0.08,cy-r);ctx.lineTo(cx,cy-r*5);ctx.lineTo(cx+r*0.08,cy-r);ctx.fillStyle=jg;ctx.fill();ctx.restore();
+    t++;requestAnimationFrame(draw);
+  })();
+}
+function initStars(){
+  const cv=document.getElementById('stars-canvas'),ctx=cv.getContext('2d');let W,H;const S=[];
+  const resize=()=>{W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;S.length=0;for(let i=0;i<300;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+0.2,a:Math.random(),da:(Math.random()-0.5)*0.01,vx:(Math.random()-0.5)*0.05,vy:(Math.random()-0.5)*0.05});};
+  window.addEventListener('resize',resize);resize();
+  (function draw(){ctx.clearRect(0,0,W,H);S.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;s.x+=s.vx;s.y+=s.vy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();});requestAnimationFrame(draw);})();
+}
+</script>
+</body>
+</html>
